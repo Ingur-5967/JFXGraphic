@@ -1,12 +1,12 @@
 package ru.solomka.graphic.scene.item.impl.base;
 
 import javafx.scene.layout.AnchorPane;
-import ru.solomka.graphic.scene.Padding;
 import ru.solomka.graphic.scene.item.BaseComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.tag.DataContext;
 import ru.solomka.graphic.scene.item.tag.ItemAnimation;
 import ru.solomka.graphic.style.CssStyle;
+import ru.solomka.graphic.style.Padding;
 
 public class BaseField implements ItemAnimation, DataContext, BaseComponent<AnchorPane> {
     @Override

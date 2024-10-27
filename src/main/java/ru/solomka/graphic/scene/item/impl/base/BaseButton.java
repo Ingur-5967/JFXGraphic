@@ -5,12 +5,12 @@ import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import ru.solomka.graphic.JFXGraphic;
-import ru.solomka.graphic.scene.Padding;
 import ru.solomka.graphic.scene.item.BaseComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.tag.Interact;
 import ru.solomka.graphic.scene.item.tag.ItemAnimation;
 import ru.solomka.graphic.style.CssStyle;
+import ru.solomka.graphic.style.Padding;
 import ru.solomka.graphic.tool.Pair;
 
 import java.util.function.BiConsumer;

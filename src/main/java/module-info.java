@@ -14,18 +14,44 @@ module ru.solomka.graphic {
     requires java.sql;
     requires lombok;
     requires java.naming;
-    requires org.jetbrains.annotations;
+    requires annotations;
 
-    opens ru.solomka.graphic to javafx.fxml;
-    exports ru.solomka.graphic;
+    opens ru.solomka.graphic.event.device to javafx.fxml;
+    exports ru.solomka.graphic.event.device;
+
+    opens ru.solomka.graphic.event.impl to javafx.fxml;
+    exports ru.solomka.graphic.event.impl;
 
     opens ru.solomka.graphic.scene to javafx.fxml;
     exports ru.solomka.graphic.scene;
 
+    opens ru.solomka.graphic.scene.item to javafx.fxml;
+    exports ru.solomka.graphic.scene.item;
+
+    opens ru.solomka.graphic.scene.item.impl to javafx.fxml;
+    exports ru.solomka.graphic.scene.item.impl;
+
+    opens ru.solomka.graphic.scene.item.impl.base to javafx.fxml;
+    exports ru.solomka.graphic.scene.item.impl.base;
+
+    opens ru.solomka.graphic.scene.item.impl.button to javafx.fxml;
+    exports ru.solomka.graphic.scene.item.impl.button;
+
+    opens ru.solomka.graphic.scene.item.impl.shape to javafx.fxml;
+    exports ru.solomka.graphic.scene.item.impl.shape ;
+
+    opens ru.solomka.graphic.scene.item.impl.text to javafx.fxml;
+    exports ru.solomka.graphic.scene.item.impl.text;
+
+    opens ru.solomka.graphic.scene.item.tag to javafx.fxml;
+    exports ru.solomka.graphic.scene.item.tag;
+
+    opens ru.solomka.graphic.style to javafx.fxml;
+    exports ru.solomka.graphic.style;
+
     opens ru.solomka.graphic.tool to javafx.fxml;
     exports ru.solomka.graphic.tool;
-    exports ru.solomka.graphic.event;
-    opens ru.solomka.graphic.event to javafx.fxml;
-    exports ru.solomka.graphic.event.device;
-    opens ru.solomka.graphic.event.device to javafx.fxml;
+
+    opens ru.solomka.graphic to javafx.fxml;
+    exports ru.solomka.graphic;
 }

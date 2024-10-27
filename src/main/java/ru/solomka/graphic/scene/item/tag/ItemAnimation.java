@@ -14,7 +14,7 @@ public interface ItemAnimation {
         if(this.hasTag()) return;
 
         Transition animation = properties.get();
-        animation.setOnFinished(_ -> this.setAnimationTag(false));
+        animation.setOnFinished(type -> this.setAnimationTag(false));
 
         animation.play();
 

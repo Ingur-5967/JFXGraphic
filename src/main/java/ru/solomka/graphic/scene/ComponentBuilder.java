@@ -11,10 +11,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import ru.solomka.graphic.event.Event;
 import ru.solomka.graphic.scene.item.SceneItem;
 
 import ru.solomka.graphic.style.CssStyle;
+import ru.solomka.graphic.style.Padding;
 
 public class ComponentBuilder<T extends Node> {
 

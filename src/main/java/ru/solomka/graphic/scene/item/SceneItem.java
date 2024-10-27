@@ -2,8 +2,8 @@ package ru.solomka.graphic.scene.item;
 
 import javafx.scene.Node;
 import org.jetbrains.annotations.NotNull;
-import ru.solomka.graphic.scene.Padding;
 import ru.solomka.graphic.style.CssStyle;
+import ru.solomka.graphic.style.Padding;
 
 public interface SceneItem<T extends Node> {
 

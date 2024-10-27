@@ -5,12 +5,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import org.jetbrains.annotations.NotNull;
 import ru.solomka.graphic.WindowCalcHelper;
-import ru.solomka.graphic.scene.Padding;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.ImageViewer;
 import ru.solomka.graphic.scene.item.impl.base.BaseButton;
 import ru.solomka.graphic.scene.item.tag.Changed;
 import ru.solomka.graphic.scene.item.tag.enums.ItemAlignment;
+import ru.solomka.graphic.style.Padding;
 import ru.solomka.graphic.tool.Pair;
 
 import java.util.stream.IntStream;

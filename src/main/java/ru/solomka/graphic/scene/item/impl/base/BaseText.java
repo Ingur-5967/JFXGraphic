@@ -3,11 +3,11 @@ package ru.solomka.graphic.scene.item.impl.base;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
-import ru.solomka.graphic.scene.Padding;
 import ru.solomka.graphic.scene.item.BaseComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.tag.DataContext;
 import ru.solomka.graphic.style.CssStyle;
+import ru.solomka.graphic.style.Padding;
 
 public class BaseText implements BaseComponent<AnchorPane>, DataContext {
 

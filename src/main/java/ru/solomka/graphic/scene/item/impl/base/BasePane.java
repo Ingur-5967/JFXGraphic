@@ -2,11 +2,11 @@ package ru.solomka.graphic.scene.item.impl.base;
 
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
-import ru.solomka.graphic.scene.Padding;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.SizeProperties;
 import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.style.CssStyle;
+import ru.solomka.graphic.style.Padding;
 
 import java.util.List;
 
