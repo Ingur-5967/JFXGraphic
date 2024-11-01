@@ -45,7 +45,7 @@ public abstract class JFXGraphic extends Application {
             }
         });
 
-        region.setOnKeyTyped(type -> {
+        region.setOnKeyTyped(_ -> {
             try {
                 EventProvider.call(new ButtonTypedEvent(null, null));
             } catch (Exception e) {
