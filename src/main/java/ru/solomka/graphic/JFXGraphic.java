@@ -32,10 +32,7 @@ public abstract class JFXGraphic extends Application {
 
     @Override
     public void start(Stage stage) {
-        this.onEnable(stage);
-
-        if (graphicInstance == null)
-            throw new NullPointerException("GraphicInstance is null");
+        setGraphicInstance(this);
 
         if (scene == null)
             throw new NullPointerException("SceneEntry is not initialized");
@@ -63,6 +60,7 @@ public abstract class JFXGraphic extends Application {
             }
         });
 
+        this.onEnable(stage);
         stage.show();
     }
 

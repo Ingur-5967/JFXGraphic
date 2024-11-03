@@ -6,7 +6,6 @@ import javafx.scene.layout.Pane;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import ru.solomka.graphic.JFXGraphic;
-import ru.solomka.graphic.Resource;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.SizeProperties;
 import ru.solomka.graphic.scene.item.tag.Container;
@@ -58,6 +57,6 @@ public final class SceneEntry {
     }
 
     public @NonNull Optional<FXMLLoader> getFXMLLoader() {
-        return Optional.of(new FXMLLoader(Resource.getFileAsResource(linkedFXML)));
+        return Optional.of(new FXMLLoader(JFXGraphic.getGraphicInstance().getClass().getResource(linkedFXML)));
     }
 }
