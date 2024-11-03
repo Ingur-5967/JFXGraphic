@@ -3,7 +3,10 @@ package ru.solomka.graphic.scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import ru.solomka.graphic.JFXGraphic;
 import ru.solomka.graphic.scene.item.SceneItem;
@@ -11,6 +14,7 @@ import ru.solomka.graphic.scene.item.SizeProperties;
 import ru.solomka.graphic.scene.item.tag.Container;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,14 +37,11 @@ public final class SceneEntry {
         this.source = new ArrayList<>();
     }
 
-    public Scene initScene() {
+    public Scene initScene(URL linkLoader) {
         try {
-            Optional<FXMLLoader> loader = this.getFXMLLoader();
+            FXMLLoader loader = new FXMLLoader(linkLoader);
 
-            if (loader.isEmpty())
-                throw new NullPointerException("FXML loader is null");
-
-            return new Scene(loader.get().load(), this.getSize().getWidth(), this.getSize().getHeight());
+            return new Scene(loader.load(), this.getSize().getWidth(), this.getSize().getHeight());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -51,12 +52,8 @@ public final class SceneEntry {
     }
 
     public void clear() {
-        Pane viewed = (Pane) JFXGraphic.getPrimaryStage().getScene().getRoot();
-        viewed.getChildren().clear();
+        Pane root = (Pane) JFXGraphic.getPrimaryStage().getScene().getRoot();
+        root.getChildren().clear();
         this.source.clear();
-    }
-
-    public @NonNull Optional<FXMLLoader> getFXMLLoader() {
-        return Optional.of(new FXMLLoader(JFXGraphic.getGraphicInstance().getClass().getResource(linkedFXML)));
     }
 }
