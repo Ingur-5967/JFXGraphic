@@ -15,9 +15,9 @@ import ru.solomka.graphic.scene.SceneEntry;
 
 public abstract class JFXGraphic extends Application {
 
-    @Getter
     @Setter
-    protected static JFXGraphic graphicInstance;
+    @Getter
+    private static JFXGraphic graphicInstance;
 
     @Setter
     @Getter
@@ -33,6 +33,9 @@ public abstract class JFXGraphic extends Application {
     @Override
     public void start(Stage stage) {
         this.onEnable(stage);
+
+        if (graphicInstance == null)
+            throw new NullPointerException("GraphicInstance is null");
 
         if (scene == null)
             throw new NullPointerException("SceneEntry is not initialized");
@@ -60,7 +63,7 @@ public abstract class JFXGraphic extends Application {
             }
         });
 
-        stage.setScene(this.scene.initScene());
+        stage.show();
     }
 
     @Override
