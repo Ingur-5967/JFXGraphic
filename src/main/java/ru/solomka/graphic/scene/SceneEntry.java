@@ -24,18 +24,25 @@ import java.util.function.Predicate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class SceneEntry {
 
-    final String linkedFXML;
     @Getter
     final SizeProperties size;
 
     @Setter
     List<SceneItem<?>> source;
 
-    public SceneEntry(String fxml, SizeProperties size) {
-        this.linkedFXML = fxml;
+    public SceneEntry(SizeProperties size) {
         this.size = size;
         this.source = new ArrayList<>();
     }
+
+    /**
+     * The param {@code linkLoader} need to define in main class
+     * <p>
+     * The resource can be obtained: {@code getClass().getResource(...)}
+     *
+     * @param linkLoader path to file *.fxml in project
+     * @return Initialized scene
+     */
 
     public Scene initScene(URL linkLoader) {
         try {
@@ -47,9 +54,19 @@ public final class SceneEntry {
         }
     }
 
+    /**
+     * @param container Parent of nodes (For example: {@code LinkedPane})
+     * @param filter Element filtering condition
+     * @return Element that has passed the filter
+     */
+
     public Optional<SceneItem<?>> findElement(Container container, Predicate<SceneItem<?>> filter) {
         return container.getSource().stream().filter(filter).findAny();
     }
+
+    /**
+     * Delete all components from current stage
+     */
 
     public void clear() {
         Pane root = (Pane) JFXGraphic.getPrimaryStage().getScene().getRoot();

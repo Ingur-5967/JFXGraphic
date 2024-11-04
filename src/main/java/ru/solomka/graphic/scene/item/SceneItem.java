@@ -6,6 +6,44 @@ import ru.solomka.graphic.style.Padding;
 
 public interface SceneItem<T extends Node> {
 
+    /**
+     * Sets element styles
+     *
+     * @param properties Styles for element (See {@code CssStyle})
+     * @param <I>        Child of SceneElement (For example: {@code BaseButton})
+     * @return SceneElement with accepted styles
+     */
+
+    <I extends SceneItem<T>> I initStyle(CssStyle... properties);
+
+    /**
+     * Sets new location on scene
+     *
+     * @param x Coordinate X
+     * @param y Coordinate Y
+     */
+
+    void setLocation(double x, double y);
+
+    /**
+     * Changes the location by adding indents to the coordinates
+     *
+     * @param padding Indents on all sides
+     */
+
+    void setLocation(Padding padding);
+
+    default void setInnerLocation(SceneItem<T> element, double x, double y) {
+    }
+
+    /**
+     * Returns current element
+     *
+     * @return Returns current element
+     */
+
+    T getItem();
+
     @SuppressWarnings("unchecked")
     static <N extends Node> SceneItem<N> fromSource(N source) {
         return new SceneItem<>() {
@@ -45,11 +83,4 @@ public interface SceneItem<T extends Node> {
         };
     }
 
-    <I extends SceneItem<T>> I initStyle(CssStyle... properties);
-
-    void setLocation(double x, double y);
-
-    void setLocation(Padding padding);
-
-    T getItem();
 }
