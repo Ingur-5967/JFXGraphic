@@ -13,6 +13,7 @@ import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.style.CssStyle;
 import ru.solomka.graphic.style.Padding;
 
+
 public class ComponentBuilder<T extends Node> {
 
     private final T source;

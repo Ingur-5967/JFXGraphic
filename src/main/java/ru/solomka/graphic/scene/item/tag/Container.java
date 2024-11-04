@@ -14,6 +14,19 @@ import java.util.stream.Collectors;
 
 public interface Container {
 
+    void addChildren(Node item);
+
+    List<Node> getChildren();
+
+    SizeProperties getBounds();
+
+    default void addChildren(SceneItem<?> item) {
+    }
+
+    default List<SceneItem<?>> getSource() {
+        return Collections.emptyList();
+    }
+
     @SuppressWarnings("unchecked")
     static <I extends Container> Container fromSource(Class<I> instance, Parent region, Object[] properties) {
         I loader;
@@ -26,18 +39,5 @@ public interface Container {
         List<SceneItem<?>> items = region.getChildrenUnmodifiable().stream().filter(c -> c instanceof AnchorPane).map(SceneItem::fromSource).collect(Collectors.toList());
 
         return items.isEmpty() ? loader : ((LazyComponent<? extends Container, ? extends Node>) loader).preInit(items.toArray(SceneItem[]::new));
-    }
-
-    void addChildren(Node item);
-
-    List<Node> getChildren();
-
-    SizeProperties getBounds();
-
-    default void addChildren(SceneItem<?> item) {
-    }
-
-    default List<SceneItem<?>> getSource() {
-        return Collections.emptyList();
     }
 }

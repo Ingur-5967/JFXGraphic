@@ -1,4 +1,4 @@
 package ru.solomka.graphic.event;
 
-public interface Event extends Callable {
+public interface Event {
 }
