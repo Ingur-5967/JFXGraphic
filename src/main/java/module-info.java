@@ -17,6 +17,9 @@ module ru.solomka.graphic {
     opens ru.solomka.graphic.event.device to javafx.fxml;
     exports ru.solomka.graphic.event.device;
 
+    opens ru.solomka.graphic.scene.item.tag.enums to javafx.fxml;
+    exports ru.solomka.graphic.scene.item.tag.enums;
+
     opens ru.solomka.graphic.event.impl to javafx.fxml;
     exports ru.solomka.graphic.event.impl;
 
