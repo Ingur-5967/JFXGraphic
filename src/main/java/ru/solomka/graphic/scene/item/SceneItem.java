@@ -36,14 +36,6 @@ public interface SceneItem<T extends Node> {
     default void setInnerLocation(SceneItem<T> element, double x, double y) {
     }
 
-    /**
-     * Returns current element
-     *
-     * @return Returns current element
-     */
-
-    T getItem();
-
     @SuppressWarnings("unchecked")
     static <N extends Node> SceneItem<N> fromSource(N source) {
         return new SceneItem<>() {
@@ -77,10 +69,28 @@ public interface SceneItem<T extends Node> {
             }
 
             @Override
-            public N getItem() {
+            public N getElement() {
                 return source;
             }
         };
+    }
+
+    /**
+     * Returns root element
+     *
+     * @return Returns root element
+     */
+
+    T getElement();
+
+    /**
+     * Returns content of root element
+     *
+     * @return Returns content of root element
+     */
+
+    default Object getElementContent() {
+        return null;
     }
 
 }

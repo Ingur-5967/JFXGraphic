@@ -14,10 +14,28 @@ import java.util.stream.Collectors;
 
 public interface Container {
 
+    /**
+     * Adds {@code item} element to the container for the abstraction layer above the scene
+     *
+     * @param item Target element to add to local container
+     * @see ru.solomka.graphic.scene.item.impl.base.BasePane
+     */
+
     void addChildren(Node item);
 
+
+    /**
+     * Returns content the container
+     *
+     * @return Returns content the container
+     */
     List<Node> getChildren();
 
+    /**
+     * Returns size of root object
+     *
+     * @return Returns size of root object
+     */
     SizeProperties getBounds();
 
     default void addChildren(SceneItem<?> item) {
