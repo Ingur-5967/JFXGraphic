@@ -4,13 +4,16 @@ import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import lombok.NonNull;
+import ru.solomka.graphic.scene.item.SizeProperties;
 
 public class WindowCalcHelper {
 
     /**
-     * @param pane    local parent
+     * Returns centre X coordinate in local parent
+     *
+     * @param pane local parent
      * @param regular target node
-     * @return Centre X coordinate in local parent
+     * @return Returns centre X coordinate in local parent
      */
 
     public static double getCentreX(@NonNull Pane pane, @NonNull AnchorPane regular) {
@@ -18,9 +21,11 @@ public class WindowCalcHelper {
     }
 
     /**
+     * Returns centre Y coordinate in local parent
+     *
      * @param pane local parent
      * @param regular target node
-     * @return Centre Y coordinate in local parent
+     * @return Returns centre Y coordinate in local parent
      */
 
     public static double getCentreY(@NonNull Pane pane, @NonNull AnchorPane regular) {
@@ -28,11 +33,13 @@ public class WindowCalcHelper {
     }
 
     /**
+     * Returns size node
+     *
      * @param node target node
-     * @return Size node (Width, Height)
+     * @return Returns size node
      */
 
-    public static double[] getSizeComponent(@NonNull Node node) {
-        return new double[]{node.getBoundsInParent().getWidth(), node.getBoundsInParent().getHeight()};
+    public static SizeProperties getSizeComponent(@NonNull Node node) {
+        return new SizeProperties(node.getBoundsInParent().getWidth(), node.getBoundsInParent().getHeight());
     }
 }
