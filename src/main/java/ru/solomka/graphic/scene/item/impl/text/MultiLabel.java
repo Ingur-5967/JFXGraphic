@@ -16,7 +16,7 @@ public class MultiLabel extends BaseText {
 
         this.content = new Pair<>(mainContent, subContent);
 
-        AnchorPane parent = this.getItem();
+        AnchorPane parent = this.getElement();
 
         subContent.setLayoutX(mainContent.getLayoutX());
         subContent.setLayoutY(mainContent.getLayoutY() + verticalSpace);
@@ -29,8 +29,5 @@ public class MultiLabel extends BaseText {
         parent.getChildren().add(subContent);
     }
 
-    @Override
-    public Object getData() {
-        return this.content;
-    }
+
 }

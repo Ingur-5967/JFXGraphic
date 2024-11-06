@@ -6,13 +6,12 @@ import javafx.scene.layout.AnchorPane;
 import lombok.Getter;
 import ru.solomka.graphic.scene.item.BaseComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
-import ru.solomka.graphic.scene.item.tag.DataContext;
 import ru.solomka.graphic.scene.item.tag.ItemAnimation;
 import ru.solomka.graphic.scene.item.tag.enums.ItemAlignment;
 import ru.solomka.graphic.style.CssStyle;
 import ru.solomka.graphic.style.Padding;
 
-public class BaseImage implements BaseComponent<AnchorPane>, ItemAnimation, DataContext {
+public class BaseImage implements BaseComponent<AnchorPane>, ItemAnimation {
 
     private final AnchorPane container;
     private final ImageView viewer;
@@ -58,12 +57,12 @@ public class BaseImage implements BaseComponent<AnchorPane>, ItemAnimation, Data
     }
 
     @Override
-    public AnchorPane getItem() {
+    public AnchorPane getElement() {
         return this.container;
     }
 
     @Override
-    public Object getData() {
+    public Object getElementContent() {
         return this.viewer;
     }
 }

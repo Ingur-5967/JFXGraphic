@@ -10,14 +10,6 @@ import ru.solomka.graphic.style.Padding;
 
 import java.util.List;
 
-/**
- * Custom container based on the {@code AnchorPane} element. Has a wide functionality for processing each element
- * The class is not available for external extension
- *
- * @see SceneItem
- * @see Container
- */
-
 public class BasePane implements Container, SceneItem<AnchorPane> {
 
     private final AnchorPane container;
@@ -52,7 +44,7 @@ public class BasePane implements Container, SceneItem<AnchorPane> {
     }
 
     @Override
-    public AnchorPane getItem() {
+    public AnchorPane getElement() {
         return this.container;
     }
 

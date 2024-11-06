@@ -34,7 +34,7 @@ public abstract class BaseButton implements BaseComponent<AnchorPane>, ItemAnima
 
     @Override
     public <E extends Event> void setup(BiConsumer<E, Pair<Stage, Node>> interact) {
-        this.container.setOnMouseClicked(e -> interact.accept((E) e, new Pair<>(JFXGraphic.getPrimaryStage(), this.getItem())));
+        this.container.setOnMouseClicked(e -> interact.accept((E) e, new Pair<>(JFXGraphic.getPrimaryStage(), this.getElement())));
     }
 
     @Override
@@ -60,7 +60,7 @@ public abstract class BaseButton implements BaseComponent<AnchorPane>, ItemAnima
     }
 
     @Override
-    public AnchorPane getItem() {
+    public AnchorPane getElement() {
         return this.container;
     }
 }

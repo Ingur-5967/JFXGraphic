@@ -24,7 +24,7 @@ public class ImageButton extends ImageViewer implements Interact, ItemAnimation 
 
     @Override
     public <E extends Event> void setup(BiConsumer<E, Pair<Stage, Node>> interact) {
-        this.getItem().setOnMouseClicked(e -> interact.accept((E) e, new Pair<>(JFXGraphic.getPrimaryStage(), this.getItem())));
+        this.getElement().setOnMouseClicked(e -> interact.accept((E) e, new Pair<>(JFXGraphic.getPrimaryStage(), this.getElement())));
     }
 
     @Override

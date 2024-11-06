@@ -24,14 +24,14 @@ public class LinkedPane extends BasePane implements LazyComponent<LinkedPane, An
 
     @Override
     public LinkedPane preInit(OperationSupplier<Pair<AnchorPane, List<SceneItem<?>>>> edit, SceneItem<?>... entries) {
-        List<Node> remap = Arrays.stream(Arrays.stream(entries).map(SceneItem::getItem).toArray(Node[]::new)).toList();
+        List<Node> remap = Arrays.stream(Arrays.stream(entries).map(SceneItem::getElement).toArray(Node[]::new)).toList();
 
-        AnchorPane parent = this.getItem();
+        AnchorPane parent = this.getElement();
 
         source.addAll(List.of(entries));
 
         parent.getChildren().addAll(
-                (edit != null ? edit.operate(new Pair<>(parent, Arrays.stream(entries).toList())).getSecond().stream().map(SceneItem::getItem).toList() : remap)
+                (edit != null ? edit.operate(new Pair<>(parent, Arrays.stream(entries).toList())).getSecond().stream().map(SceneItem::getElement).toList() : remap)
         );
 
         return this;
@@ -40,7 +40,7 @@ public class LinkedPane extends BasePane implements LazyComponent<LinkedPane, An
     @Override
     public void addChildren(SceneItem<?> item) {
         this.source.add(item);
-        this.getItem().getChildren().add(item.getItem());
+        this.getElement().getChildren().add(item.getElement());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class LinkedPane extends BasePane implements LazyComponent<LinkedPane, An
 
     @Override
     public SceneItem<?> get(String id) {
-        return this.source.stream().filter(node -> node.getItem().getId() != null && node.getItem().getId().equals(id)).findAny().orElse(null);
+        return this.source.stream().filter(node -> node.getElement().getId() != null && node.getElement().getId().equals(id)).findAny().orElse(null);
     }
 
     @Override

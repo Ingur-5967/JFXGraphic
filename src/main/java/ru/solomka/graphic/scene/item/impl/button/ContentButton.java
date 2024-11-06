@@ -23,30 +23,30 @@ public class ContentButton extends BaseButton implements Changed<Boolean> {
 
         this.state = false;
 
-        AnchorPane parent = this.getItem();
+        AnchorPane parent = this.getElement();
 
         Padding imageEditor = padding.getFirst();
         Padding contentEditor = padding.getSecond();
 
-        ImageView data = (ImageView) source.getData();
+        ImageView data = (ImageView) source.getElementContent();
 
         if (width > 0 && height > 0)
             parent.setPrefSize(width, height);
         else {
             double fixedWidth = content != null
-                    ? (data.getFitWidth() + (source.getOrientation() == ItemAlignment.LEFT ? contentEditor.getLeft() : contentEditor.getRight()) + ((AnchorPane) content.getItem()).getPrefWidth() * 3.5)
+                    ? (data.getFitWidth() + (source.getOrientation() == ItemAlignment.LEFT ? contentEditor.getLeft() : contentEditor.getRight()) + ((AnchorPane) content.getElement()).getPrefWidth() * 3.5)
                     : data.getFitWidth();
 
-            double fixedHeight = content != null ? IntStream.of((int) data.getFitHeight(), (int) ((AnchorPane) content.getItem()).getPrefHeight()).max().getAsInt() : data.getFitHeight();
+            double fixedHeight = content != null ? IntStream.of((int) data.getFitHeight(), (int) ((AnchorPane) content.getElement()).getPrefHeight()).max().getAsInt() : data.getFitHeight();
 
             parent.setPrefSize(fixedWidth, fixedHeight);
         }
 
         if (content != null) {
-            Node item = content.getItem();
+            Node item = content.getElement();
 
             item.setLayoutX(source.getOrientation() == ItemAlignment.LEFT ? (data.getFitWidth() + contentEditor.getLeft()) : 0);
-            item.setLayoutY(WindowCalcHelper.getNegativeCentre(parent, item)[1] + contentEditor.getTop() + contentEditor.getBottom());
+            item.setLayoutY(WindowCalcHelper.getCentreY(parent, ((AnchorPane) item)) + contentEditor.getTop() + contentEditor.getBottom());
 
             parent.getChildren().add(item);
         }
@@ -55,14 +55,14 @@ public class ContentButton extends BaseButton implements Changed<Boolean> {
         if (source.getOrientation() == ItemAlignment.LEFT)
             fixedX = 0;
         else if (content != null)
-            fixedX = (int) (((AnchorPane) content.getItem()).getPrefWidth() + imageEditor.getRight());
+            fixedX = (int) (((AnchorPane) content.getElement()).getPrefWidth() + imageEditor.getRight());
 
         if (fixedX == -1) return;
 
-        source.getItem().setLayoutX(fixedX + imageEditor.getLeft() + imageEditor.getRight());
-        source.getItem().setLayoutY(WindowCalcHelper.getNegativeCentre(parent, source.getItem())[1] + imageEditor.getTop() + imageEditor.getBottom());
+        source.getElement().setLayoutX(fixedX + imageEditor.getLeft() + imageEditor.getRight());
+        source.getElement().setLayoutY(WindowCalcHelper.getCentreY(parent, source.getElement()) + imageEditor.getTop() + imageEditor.getBottom());
 
-        parent.getChildren().add(source.getItem());
+        parent.getChildren().add(source.getElement());
     }
 
     @Override

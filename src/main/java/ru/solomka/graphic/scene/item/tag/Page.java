@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface Page {
 
-    List<SceneItem<?>> getContent();
+    List<SceneItem<?>> getData();
 
-    void setContent(SceneItem<?>... items);
+    void setData(SceneItem<?>... items);
 
     <T extends SceneItem<? extends Node>> T current();
 

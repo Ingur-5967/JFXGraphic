@@ -10,13 +10,13 @@ import java.util.List;
 
 public class BasePage extends BasePane implements Page {
 
-    private final List<SceneItem<?>> content;
+    private final List<SceneItem<?>> data;
     private int currentIndex;
 
     public BasePage(int width, int height, String id) {
         super(width, height, id);
         this.currentIndex = 0;
-        this.content = new ArrayList<>();
+        this.data = new ArrayList<>();
     }
 
     @Override
@@ -24,7 +24,7 @@ public class BasePage extends BasePane implements Page {
         if (!this.hasNext()) {
             return current();
         }
-        return (T) this.content.get(++this.currentIndex);
+        return (T) this.data.get(++this.currentIndex);
     }
 
     @Override
@@ -32,17 +32,17 @@ public class BasePage extends BasePane implements Page {
         if (this.currentIndex == 0) {
             return current();
         }
-        return (T) this.content.get(--this.currentIndex);
+        return (T) this.data.get(--this.currentIndex);
     }
 
     @Override
     public <T extends SceneItem<? extends Node>> T current() {
-        return (T) this.content.get(this.currentIndex);
+        return (T) this.data.get(this.currentIndex);
     }
 
     @Override
     public boolean hasNext() {
-        return !this.content.isEmpty() && this.currentIndex < this.content.size() - 1;
+        return !this.data.isEmpty() && this.currentIndex < this.data.size() - 1;
     }
 
     @Override
@@ -51,12 +51,12 @@ public class BasePage extends BasePane implements Page {
     }
 
     @Override
-    public List<SceneItem<?>> getContent() {
-        return this.content;
+    public List<SceneItem<?>> getData() {
+        return this.data;
     }
 
     @Override
-    public void setContent(SceneItem<?>... items) {
-        this.content.addAll(Arrays.stream(items).toList());
+    public void setData(SceneItem<?>... items) {
+        this.data.addAll(Arrays.stream(items).toList());
     }
 }
