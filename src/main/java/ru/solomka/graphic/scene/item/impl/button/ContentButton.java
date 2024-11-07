@@ -7,21 +7,16 @@ import ru.solomka.graphic.WindowCalcHelper;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.ImageViewer;
 import ru.solomka.graphic.scene.item.impl.base.BaseButton;
-import ru.solomka.graphic.scene.item.tag.Changed;
 import ru.solomka.graphic.scene.item.tag.enums.ItemAlignment;
 import ru.solomka.graphic.style.Padding;
 import ru.solomka.graphic.tool.Pair;
 
 import java.util.stream.IntStream;
 
-public class ContentButton extends BaseButton implements Changed<Boolean> {
-
-    private boolean state;
+public class ContentButton extends BaseButton {
 
     public ContentButton(int width, int height, String id, ImageViewer source, SceneItem<?> content, Pair<Padding, Padding> padding) {
         super(id);
-
-        this.state = false;
 
         AnchorPane parent = this.getElement();
 
@@ -63,15 +58,5 @@ public class ContentButton extends BaseButton implements Changed<Boolean> {
         source.getElement().setLayoutY(WindowCalcHelper.getCentreY(parent, source.getElement()) + imageEditor.getTop() + imageEditor.getBottom());
 
         parent.getChildren().add(source.getElement());
-    }
-
-    @Override
-    public void change(Boolean newState) {
-        this.state = newState;
-    }
-
-    @Override
-    public Boolean getState() {
-        return this.state;
     }
 }

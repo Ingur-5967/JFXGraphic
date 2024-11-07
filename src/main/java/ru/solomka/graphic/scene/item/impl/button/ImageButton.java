@@ -1,10 +1,10 @@
 package ru.solomka.graphic.scene.item.impl.button;
 
-import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import ru.solomka.graphic.JFXGraphic;
+import ru.solomka.graphic.event.Event;
 import ru.solomka.graphic.scene.item.impl.ImageViewer;
 import ru.solomka.graphic.scene.item.tag.Interact;
 import ru.solomka.graphic.scene.item.tag.ItemAnimation;

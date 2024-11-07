@@ -15,7 +15,6 @@ public class WindowCalcHelper {
      * @param regular target node
      * @return Returns centre X coordinate in local parent
      */
-
     public static double getCentreX(@NonNull Pane pane, @NonNull AnchorPane regular) {
         return pane.getPrefWidth() / 2 - regular.getPrefWidth()/2;
     }
@@ -27,7 +26,6 @@ public class WindowCalcHelper {
      * @param regular target node
      * @return Returns centre Y coordinate in local parent
      */
-
     public static double getCentreY(@NonNull Pane pane, @NonNull AnchorPane regular) {
         return pane.getPrefHeight() / 2 - regular.getPrefHeight()/2;
     }
@@ -38,7 +36,6 @@ public class WindowCalcHelper {
      * @param node target node
      * @return Returns size node
      */
-
     public static SizeProperties getSizeComponent(@NonNull Node node) {
         return new SizeProperties(node.getBoundsInParent().getWidth(), node.getBoundsInParent().getHeight());
     }

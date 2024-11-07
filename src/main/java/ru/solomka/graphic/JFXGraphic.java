@@ -8,7 +8,6 @@ import lombok.Setter;
 import ru.solomka.graphic.event.EventProvider;
 import ru.solomka.graphic.event.Priority;
 import ru.solomka.graphic.event.device.Mouse;
-import ru.solomka.graphic.event.impl.ButtonTypedEvent;
 import ru.solomka.graphic.event.impl.MouseMoveEvent;
 import ru.solomka.graphic.scene.SceneEntry;
 
@@ -47,14 +46,6 @@ public abstract class JFXGraphic extends Application {
         region.setOnMouseMoved(mouse -> {
             try {
                 EventProvider.call(new MouseMoveEvent(scene, mouse.getButton(), this.mouseInstance), Priority.values());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        region.setOnKeyTyped(_ -> {
-            try {
-                EventProvider.call(new ButtonTypedEvent(null, null));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

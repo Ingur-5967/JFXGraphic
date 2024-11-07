@@ -1,10 +1,10 @@
 package ru.solomka.graphic.scene.item.impl.base;
 
-import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import ru.solomka.graphic.JFXGraphic;
+import ru.solomka.graphic.event.Event;
 import ru.solomka.graphic.scene.item.BaseComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.tag.Interact;
