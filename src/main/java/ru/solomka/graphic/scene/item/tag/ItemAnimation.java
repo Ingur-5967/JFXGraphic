@@ -23,7 +23,17 @@ public interface ItemAnimation {
      * Play animation with specified settings (It is possible if the tag is present).
      * After the animation played, the flag switched itself to the opposite state.
      * <p>
-     * {@code element.animation(() -> RotateTransition anim = new RotateTransition(...); ...) }
+     * For example:
+     * <blockquote><pre>
+     * element.animation(() -> {
+     *     RotateTransition animation = new RotateTransition(Duration.seconds(0.9), SceneItem#getItem());
+     *     animation.setFromAngle(0);
+     *     animation.setToAngle(-360);
+     *     animation.setInterpolator(Interpolator.LINEAR);
+     *     return animation;
+     * }
+     * </pre></blockquote>
+     * </p>
      *
      * @param properties basic setting for {@code Animation}
      */
