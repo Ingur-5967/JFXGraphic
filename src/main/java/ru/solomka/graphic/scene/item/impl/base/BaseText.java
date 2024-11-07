@@ -39,11 +39,11 @@ public class BaseText implements BaseComponent<AnchorPane> {
      * @param lineIndex Index to get the object {@code Label} in data
      * @see Label
      */
-    public void addText(String content, int lineIndex) {
+    public boolean addText(String content, int lineIndex) {
         Label element;
 
         if (this.textData.size() < lineIndex)
-            throw new IllegalArgumentException("Line index out of bounds");
+            return false;
 
         if (this.textData.isEmpty()) {
             element = new Label(content);
@@ -54,6 +54,7 @@ public class BaseText implements BaseComponent<AnchorPane> {
 
         element = this.textData.get(lineIndex);
         element.setText(element.getText().concat(content));
+        return true;
     }
 
     /**
@@ -67,8 +68,8 @@ public class BaseText implements BaseComponent<AnchorPane> {
      * @param content Any valid text for object {@code Label}
      * @see Label
      */
-    public void addText(String content) {
-        this.addText(content, 0);
+    public boolean addText(String content) {
+        return this.addText(content, 0);
     }
 
     /**
