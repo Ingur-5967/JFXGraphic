@@ -14,6 +14,9 @@ module ru.solomka.graphic {
     requires java.naming;
     requires lombok;
 
+    opens ru.solomka.graphic.event to javafx.graphics;
+    exports ru.solomka.graphic.event;
+
     opens ru.solomka.graphic.event.device to javafx.fxml;
     exports ru.solomka.graphic.event.device;
 
@@ -37,9 +40,6 @@ module ru.solomka.graphic {
 
     opens ru.solomka.graphic.scene.item.impl.button to javafx.fxml;
     exports ru.solomka.graphic.scene.item.impl.button;
-
-    opens ru.solomka.graphic.scene.item.impl.shape to javafx.fxml;
-    exports ru.solomka.graphic.scene.item.impl.shape;
 
     opens ru.solomka.graphic.scene.item.impl.text to javafx.fxml;
     exports ru.solomka.graphic.scene.item.impl.text;

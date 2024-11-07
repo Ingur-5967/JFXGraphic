@@ -20,11 +20,11 @@ public class CssStyle {
      * Concatenate all strings into a single string to correctly pass the style for the object.
      * <p>
      * {@code new CssString(CssStyle.Properties.TEXT_FILL_COLOR.getProperty("red"))}
+     * </p>
      *
      * @param styles Collection of CssStyle with Properties
      * @return A single line with styles specified
      */
-
     public static @NonNull String getCssString(CssStyle... styles) {
         return String.join(";", Arrays.stream(styles).map(CssStyle::getCss).toList());
     }

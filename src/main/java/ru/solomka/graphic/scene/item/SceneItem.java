@@ -1,6 +1,7 @@
 package ru.solomka.graphic.scene.item;
 
 import javafx.scene.Node;
+import ru.solomka.graphic.scene.item.impl.base.BaseButton;
 import ru.solomka.graphic.style.CssStyle;
 import ru.solomka.graphic.style.Padding;
 
@@ -9,11 +10,10 @@ public interface SceneItem<T extends Node> {
     /**
      * Sets element styles
      *
-     * @param properties Styles for element (See {@code CssStyle})
-     * @param <I>        Child of SceneElement (For example: {@code BaseButton})
+     * @param properties Styles for element (See {@link CssStyle})
+     * @param <I> Child of SceneElement (For example: {@link BaseButton})
      * @return SceneElement with accepted styles
      */
-
     <I extends SceneItem<T>> I initStyle(CssStyle... properties);
 
     /**
@@ -22,7 +22,6 @@ public interface SceneItem<T extends Node> {
      * @param x Coordinate X
      * @param y Coordinate Y
      */
-
     void setLocation(double x, double y);
 
     /**
@@ -30,11 +29,27 @@ public interface SceneItem<T extends Node> {
      *
      * @param padding Indents on all sides
      */
-
     void setLocation(Padding padding);
 
     default void setInnerLocation(SceneItem<T> element, double x, double y) {
     }
+
+    /**
+     * Returns root element
+     *
+     * @return Returns root element
+     */
+    T getElement();
+
+    /**
+     * Returns content of root element
+     *
+     * @return Returns content of root element
+     */
+    default Object getElementContent() {
+        return null;
+    }
+
 
     @SuppressWarnings("unchecked")
     static <N extends Node> SceneItem<N> fromSource(N source) {
@@ -74,23 +89,4 @@ public interface SceneItem<T extends Node> {
             }
         };
     }
-
-    /**
-     * Returns root element
-     *
-     * @return Returns root element
-     */
-
-    T getElement();
-
-    /**
-     * Returns content of root element
-     *
-     * @return Returns content of root element
-     */
-
-    default Object getElementContent() {
-        return null;
-    }
-
 }

@@ -1,6 +1,7 @@
 package ru.solomka.graphic.scene.item.impl.base;
 
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -34,11 +35,10 @@ public class BaseText implements BaseComponent<AnchorPane> {
      * Concat {@code content} to exists object {@code Label} in data list {@code BaseText}.
      * If list is empty, then the {@code content} element becomes the first element in the data list.
      *
-     * @param content   Any valid text for object {@code Label}
+     * @param content Any valid text for object {@code Label}
      * @param lineIndex Index to get the object {@code Label} in data
      * @see Label
      */
-
     public void addText(String content, int lineIndex) {
         Label element;
 
@@ -60,10 +60,13 @@ public class BaseText implements BaseComponent<AnchorPane> {
      * Concat {@code content} to exists object {@code Label} in data list {@code BaseText}.
      * If list is empty, then the {@code content} element becomes the first element in the data list.
      *
+     * <p>
+     * {@link BaseText#addText(String, int)}
+     * </p>
+     * 
      * @param content Any valid text for object {@code Label}
      * @see Label
      */
-
     public void addText(String content) {
         this.addText(content, 0);
     }
@@ -71,9 +74,8 @@ public class BaseText implements BaseComponent<AnchorPane> {
     /**
      * Delete all instances from {@code textData} on {@code Scene}
      *
-     * @see javafx.scene.Scene
+     * @see Scene
      */
-
     public void clearAll() {
         if (JFXGraphic.getPrimaryStage() == null)
             throw new NullPointerException("JFXGraphic is not attached to the primary stage (Stage is NULL)");

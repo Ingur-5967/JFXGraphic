@@ -6,6 +6,7 @@ import javafx.scene.layout.AnchorPane;
 import ru.solomka.graphic.scene.item.LazyComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.SizeProperties;
+import ru.solomka.graphic.scene.item.impl.base.BasePane;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
@@ -15,19 +16,17 @@ import java.util.stream.Collectors;
 public interface Container {
 
     /**
-     * Adds {@code item} element to the container for the abstraction layer above the scene
+     * Adds {@code item} non-abstract element to the container
      *
      * @param item Target element to add to local container
-     * @see ru.solomka.graphic.scene.item.impl.base.BasePane
+     * @see BasePane
      */
-
     void addChildren(Node item);
 
-
     /**
-     * Returns content the container
+     * Returns non-abstract content the container
      *
-     * @return Returns content the container
+     * @return Returns non-abstract content the container
      */
     List<Node> getChildren();
 
@@ -38,9 +37,22 @@ public interface Container {
      */
     SizeProperties getBounds();
 
+    /**
+     * Adds new child to abstract container
+     *
+     * @param item Target item for add
+     * @see BasePane
+     */
     default void addChildren(SceneItem<?> item) {
     }
 
+    /**
+     * Returns abstract content the container
+     *
+     * @return Returns non-abstract content the container
+     * @see SceneItem
+     * @see BasePane
+     */
     default List<SceneItem<?>> getSource() {
         return Collections.emptyList();
     }

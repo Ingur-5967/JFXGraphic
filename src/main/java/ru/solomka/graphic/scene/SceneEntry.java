@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 import ru.solomka.graphic.JFXGraphic;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.SizeProperties;
+import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.tag.Container;
 
 import java.io.IOException;
@@ -43,7 +44,6 @@ public final class SceneEntry {
      * @param linkLoader path to file *.fxml in project
      * @return Initialized scene
      */
-
     public Scene initScene(URL linkLoader) {
         try {
             FXMLLoader loader = new FXMLLoader(linkLoader);
@@ -55,11 +55,12 @@ public final class SceneEntry {
     }
 
     /**
-     * @param container Parent of nodes (For example: {@code LinkedPane})
+     * Returns element that has passed the filter
+     *
+     * @param container Parent of nodes (For example: {@link LinkedPane})
      * @param filter Element filtering condition
-     * @return Element that has passed the filter
+     * @return Returns element that has passed the filter
      */
-
     public Optional<SceneItem<?>> findElement(Container container, Predicate<SceneItem<?>> filter) {
         return container.getSource().stream().filter(filter).findAny();
     }
