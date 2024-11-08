@@ -16,7 +16,13 @@ public class WindowCalcHelper {
      * @return Returns centre X coordinate in local parent
      */
     public static double getCentreX(@NonNull Pane pane, @NonNull AnchorPane regular) {
-        return pane.getPrefWidth() / 2 - regular.getPrefWidth()/2;
+        if (pane.getPrefWidth() <= 0 || pane.getPrefHeight() <= 0)
+            throw new IllegalArgumentException("Pane width and height must be greater than 0");
+
+        if (regular.getPrefWidth() <= 0 || regular.getPrefHeight() <= 0)
+            throw new IllegalArgumentException("Regular node width and height must be greater than 0");
+
+        return pane.getPrefWidth() / 2 - regular.getPrefWidth() / 1.99;
     }
 
     /**
@@ -27,7 +33,13 @@ public class WindowCalcHelper {
      * @return Returns centre Y coordinate in local parent
      */
     public static double getCentreY(@NonNull Pane pane, @NonNull AnchorPane regular) {
-        return pane.getPrefHeight() / 2 - regular.getPrefHeight()/2;
+        if (pane.getPrefWidth() <= 0 || pane.getPrefHeight() <= 0)
+            throw new IllegalArgumentException("Parent width and height must be greater than 0");
+
+        if (regular.getPrefWidth() <= 0 || regular.getPrefHeight() <= 0)
+            throw new IllegalArgumentException("Regular node width and height must be greater than 0");
+
+        return pane.getPrefHeight() / 2 - regular.getPrefHeight() / 1.8477;
     }
 
     /**
