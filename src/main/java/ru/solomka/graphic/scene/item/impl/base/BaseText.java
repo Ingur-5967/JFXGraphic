@@ -1,5 +1,6 @@
 package ru.solomka.graphic.scene.item.impl.base;
 
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -39,7 +40,7 @@ public class BaseText implements BaseComponent<AnchorPane> {
      * @param lineIndex Index to get the object {@code Label} in data
      * @see Label
      */
-    public boolean addText(String content, int lineIndex) {
+    public boolean addText(String content, String separator, int lineIndex) {
         Label element;
 
         if (this.textData.size() < lineIndex)
@@ -49,11 +50,14 @@ public class BaseText implements BaseComponent<AnchorPane> {
             element = new Label(content);
             element.setFont(Font.font(this.textData.getLast().getFont().getSize()));
             this.textData.add(new Label(content));
-            this.addText(content);
+            this.addText(content, separator);
         }
 
         element = this.textData.get(lineIndex);
-        element.setText(element.getText().concat(content));
+        element.setText(element.getText().concat(separator.concat(content)));
+
+        this.container.setPrefWidth((element.getFont().getSize() / 1.47 * element.getText().length() / 1.43));
+
         return true;
     }
 
@@ -62,14 +66,14 @@ public class BaseText implements BaseComponent<AnchorPane> {
      * If list is empty, then the {@code content} element becomes the first element in the data list.
      *
      * <p>
-     * {@link BaseText#addText(String, int)}
+     * {@link BaseText#addText(String, String, int)}
      * </p>
      * 
      * @param content Any valid text for object {@code Label}
      * @see Label
      */
-    public boolean addText(String content) {
-        return this.addText(content, 0);
+    public boolean addText(String content, String separator) {
+        return this.addText(content, separator, 0);
     }
 
     /**
@@ -93,8 +97,18 @@ public class BaseText implements BaseComponent<AnchorPane> {
 
     @Override
     public <I extends SceneItem<AnchorPane>> I initStyle(CssStyle... properties) {
-        this.container.setStyle(CssStyle.getCssString(properties));
+        return this.initStyle(this.container, properties);
+    }
+
+    @Override
+    public <I extends SceneItem<AnchorPane>> I initStyle(Node node, CssStyle... properties) {
+        node.setStyle(CssStyle.getCssString(properties));
         return (I) this;
+    }
+
+    @Override
+    public <I extends SceneItem<AnchorPane>> I initStyle(SceneItem<?> item, CssStyle... properties) {
+        return this.initStyle(item.getElement(), properties);
     }
 
     @Override
