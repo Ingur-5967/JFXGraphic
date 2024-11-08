@@ -11,10 +11,18 @@ public interface SceneItem<T extends Node> {
      * Sets element styles
      *
      * @param properties Styles for element (See {@link CssStyle})
-     * @param <I> Child of SceneElement (For example: {@link BaseButton})
+     * @param <I> Child of SceneElement (See: {@link BaseButton})
      * @return SceneElement with accepted styles
      */
     <I extends SceneItem<T>> I initStyle(CssStyle... properties);
+
+    default <I extends SceneItem<T>> I initStyle(SceneItem<?> item, CssStyle... properties) {
+        return null;
+    }
+
+    default <I extends SceneItem<T>> I initStyle(Node node, CssStyle... properties) {
+        return null;
+    }
 
     /**
      * Sets new location on scene

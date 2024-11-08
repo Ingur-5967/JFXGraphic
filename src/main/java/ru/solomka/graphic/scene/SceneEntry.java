@@ -1,6 +1,7 @@
 package ru.solomka.graphic.scene;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import lombok.AccessLevel;
@@ -37,18 +38,28 @@ public final class SceneEntry {
     }
 
     /**
-     * The param {@code linkLoader} need to define in main class
-     * <p>
-     * The resource can be obtained: {@code getClass().getResource(...)}
+     * Initializing a scene with region {@code parent}
      *
-     * @param linkLoader path to file *.fxml in project
+     * @param parent Target region for scene
+     * @return Initialized scene
+     */
+    public Scene initScene(Parent parent) {
+        return new Scene(parent, this.getSize().getWidth(), this.getSize().getHeight());
+    }
+
+    /**
+     * Initializing a scene with source the {@code *.fxml} file
+     * <p>
+     * See: {@link SceneEntry#initScene(Parent)}
+     * </p>
+     *
+     * @param linkLoader Path to the file *.fxml
      * @return Initialized scene
      */
     public Scene initScene(URL linkLoader) {
         try {
             FXMLLoader loader = new FXMLLoader(linkLoader);
-
-            return new Scene(loader.load(), this.getSize().getWidth(), this.getSize().getHeight());
+            return this.initScene((Parent) loader.load());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -68,7 +79,6 @@ public final class SceneEntry {
     /**
      * Delete all components from current stage
      */
-
     public void clear() {
         Pane root = (Pane) JFXGraphic.getPrimaryStage().getScene().getRoot();
         root.getChildren().clear();

@@ -29,6 +29,10 @@ public class CssStyle {
         return String.join(";", Arrays.stream(styles).map(CssStyle::getCss).toList());
     }
 
+    public static CssStyle[] create(String... properties) {
+        return Arrays.stream(properties).map(CssStyle::new).toArray(CssStyle[]::new);
+    }
+
     public enum Properties {
 
         TEXT_FILL_COLOR("-fx-text-fill: %s"),
