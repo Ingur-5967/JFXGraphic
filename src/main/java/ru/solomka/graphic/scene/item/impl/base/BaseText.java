@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import lombok.Getter;
+import lombok.Setter;
 import ru.solomka.graphic.JFXGraphic;
 import ru.solomka.graphic.scene.item.BaseComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
@@ -23,13 +24,23 @@ public class BaseText implements BaseComponent<AnchorPane> {
 
     @Getter
     private final List<Label> textData;
+    @Getter
+    @Setter
+    private int maxLines;
 
-    public BaseText(String mainContent, int font) {
+    public BaseText(String content, int font, int maxLines) {
         this.container = new AnchorPane();
         this.textData = new ArrayList<>();
-        Label base = new Label(mainContent);
-        base.setFont(Font.font(font));
+        this.maxLines = maxLines;
+
+        Label base = this.initBaseObject(content, font);
+
+        this.container.setPrefSize((int) (base.getFont().getSize() / 1.5 * base.getText().length() / 1.5), font + content.length() / 1.532);
         this.textData.add(base);
+    }
+
+    public BaseText(String content, int font) {
+        this(content, font, 1);
     }
 
     /**
@@ -39,9 +50,13 @@ public class BaseText implements BaseComponent<AnchorPane> {
      * @param content Any valid text for object {@code Label}
      * @param lineIndex Index to get the object {@code Label} in data
      * @see Label
+     * @throws IllegalArgumentException {@code lineIndex} < 0
      */
-    public boolean addText(String content, String separator, int lineIndex) {
+    public boolean addTextToObject(String content, String separator, int lineIndex) {
         Label element;
+
+        if (lineIndex < 0)
+            throw new IllegalArgumentException("Line index must be greater than 0");
 
         if (this.textData.size() < lineIndex)
             return false;
@@ -50,7 +65,7 @@ public class BaseText implements BaseComponent<AnchorPane> {
             element = new Label(content);
             element.setFont(Font.font(this.textData.getLast().getFont().getSize()));
             this.textData.add(new Label(content));
-            this.addText(content, separator);
+            this.addTextToObject(content, separator);
         }
 
         element = this.textData.get(lineIndex);
@@ -66,14 +81,65 @@ public class BaseText implements BaseComponent<AnchorPane> {
      * If list is empty, then the {@code content} element becomes the first element in the data list.
      *
      * <p>
-     * {@link BaseText#addText(String, String, int)}
+     * Root method: {@link BaseText#addTextToObject(String, String, int)}
      * </p>
      * 
      * @param content Any valid text for object {@code Label}
      * @see Label
      */
-    public boolean addText(String content, String separator) {
-        return this.addText(content, separator, 0);
+    public boolean addTextToObject(String content, String separator) {
+        return this.addTextToObject(content, separator, 0);
+    }
+
+    /**
+     * Adds a new line to existing text
+     *
+     * @param content Any valid text for object {@code Label}
+     * @param font    Text size ({@link Font})
+     * @param padding Spacing between the previous line
+     * @param styles  Style for text
+     * @return Result/Success of adding a new line
+     * @throws IllegalArgumentException {@code padding} < 0 or {@code font} <= 0
+     * @see Label
+     */
+    public boolean addLine(String content, int font, int padding, CssStyle... styles) {
+        if (padding < 0 || font <= 0)
+            throw new IllegalArgumentException("Padding must be greater than 0");
+
+        if (this.maxLines < this.textData.size())
+            return false;
+
+        Label coordinator = this.textData.getLast();
+        Label newLabel = new Label(content);
+
+        newLabel.setFont(Font.font(font));
+        newLabel.setStyle((CssStyle.getCssString(styles).isEmpty() ? "" : CssStyle.getCssString(styles)));
+        newLabel.setLayoutX(coordinator.getLayoutX());
+        newLabel.setLayoutY((coordinator.getLayoutY() + coordinator.getFont().getSize() / 1.5) + padding);
+
+        this.textData.add(newLabel);
+        this.container.setPrefHeight(this.container.getPrefHeight() + (padding + newLabel.getFont().getSize()) / 2);
+        this.container.getChildren().add(newLabel);
+
+        return true;
+    }
+
+    /**
+     * Adds a new line to existing text
+     *
+     * <p>
+     * Root method: {@link BaseText#addLine(String, int, int, CssStyle...)}
+     * </p>
+     *
+     * @param content Any valid text for object {@code Label}
+     * @param font    New text size
+     * @param padding Spacing between the previous line
+     * @return Result/Success of adding a new line
+     * @throws IllegalArgumentException {@code padding} < 0 or {@code font} <= 0
+     * @see Label
+     */
+    public boolean addLine(String content, int font, int padding) {
+        return this.addLine(content, font, padding, CssStyle.empty());
     }
 
     /**
@@ -93,6 +159,29 @@ public class BaseText implements BaseComponent<AnchorPane> {
         });
 
         this.textData.clear();
+    }
+
+    /**
+     * Returns an existing item to the list date {@code BaseText#getTextData()}
+     *
+     * @param index Desired object index
+     * @return Returns an existing item to the list date
+     * @throws IndexOutOfBoundsException {@code index < 0} or <p>{@code index >= BaseText#getTextData().size()}</p>
+     */
+
+    public Label getLineObject(int index) {
+        if (index < 0 || index >= this.textData.size())
+            throw new IllegalArgumentException("Index must be between 0 and " + (this.textData.size() - 1));
+
+        return this.textData.get(index);
+    }
+
+    private Label initBaseObject(String content, int font) {
+        Label base = new Label(content);
+        base.setFont(Font.font(font));
+        base.setLayoutX(0);
+        base.setLayoutY((this.container.getPrefHeight() / font + 1));
+        return base;
     }
 
     @Override
