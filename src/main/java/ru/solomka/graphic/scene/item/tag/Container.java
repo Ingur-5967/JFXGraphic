@@ -49,7 +49,7 @@ public interface Container {
     /**
      * Returns abstract content the container
      *
-     * @return Returns non-abstract content the container
+     * @return Returns abstract content the container
      * @see SceneItem
      * @see BasePane
      */

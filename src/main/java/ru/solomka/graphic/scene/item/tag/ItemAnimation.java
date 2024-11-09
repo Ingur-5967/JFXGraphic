@@ -9,12 +9,13 @@ public interface ItemAnimation {
     /**
      * The behavior of the animation depends on the state of the flag
      *
-     * @param tag flag state
+     * @param tag Flag state
      */
     void setAnimationTag(boolean tag);
 
     /**
      * Returns state of tag
+     *
      * @return Returns state of tag
      */
     boolean hasTag();
@@ -35,7 +36,7 @@ public interface ItemAnimation {
      * </pre></blockquote>
      * </p>
      *
-     * @param properties basic setting for {@code Animation}
+     * @param properties Basic setting for {@code Animation}
      */
     default void animation(Supplier<? extends Transition> properties) {
         if (this.hasTag()) return;

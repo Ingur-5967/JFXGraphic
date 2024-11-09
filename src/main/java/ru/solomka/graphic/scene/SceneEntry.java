@@ -4,11 +4,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 import ru.solomka.graphic.JFXGraphic;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.SizeProperties;
@@ -22,15 +19,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-@Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public final class SceneEntry {
 
     @Getter
-    final SizeProperties size;
+    private final SizeProperties size;
 
     @Setter
-    List<SceneItem<?>> source;
+    private List<SceneItem<?>> source;
 
     public SceneEntry(SizeProperties size) {
         this.size = size;

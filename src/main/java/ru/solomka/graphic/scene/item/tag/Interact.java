@@ -13,7 +13,7 @@ public interface Interact {
      * Sets the handler for a specific event
      *
      * @param interact Pair with a primary stage and target node
-     * @param <E>      Type of target event
+     * @param <E> Type of target event
      */
 
     <E extends Event> void setup(BiConsumer<E, Pair<Stage, Node>> interact);

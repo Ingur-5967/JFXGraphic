@@ -79,8 +79,7 @@ public class BaseText implements BaseComponent<AnchorPane> {
     /**
      * Concat {@code content} to exists object {@code Label} in data list {@code BaseText}.
      * If list is empty, then the {@code content} element becomes the first element in the data list.
-     *
-     * <p>
+     M     * <p>
      * Root method: {@link BaseText#addTextToObject(String, String, int)}
      * </p>
      * 
@@ -126,7 +125,6 @@ public class BaseText implements BaseComponent<AnchorPane> {
 
     /**
      * Adds a new line to existing text
-     *
      * <p>
      * Root method: {@link BaseText#addLine(String, int, int, CssStyle...)}
      * </p>
@@ -148,9 +146,6 @@ public class BaseText implements BaseComponent<AnchorPane> {
      * @see Scene
      */
     public void clearAll() {
-        if (JFXGraphic.getPrimaryStage() == null)
-            throw new NullPointerException("JFXGraphic is not attached to the primary stage (Stage is NULL)");
-
         this.textData.forEach(component -> {
             Parent root = JFXGraphic.getPrimaryStage().getScene().getRoot();
             Pane regionItems = (Pane) root;
