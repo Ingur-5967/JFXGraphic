@@ -33,6 +33,10 @@ public class CssStyle {
         return Arrays.stream(properties).map(CssStyle::new).toArray(CssStyle[]::new);
     }
 
+    public static CssStyle empty() {
+        return new CssStyle("");
+    }
+
     public enum Properties {
 
         TEXT_FILL_COLOR("-fx-text-fill: %s"),
