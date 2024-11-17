@@ -3,9 +3,11 @@ package ru.solomka.graphic.scene.item.impl.base;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import lombok.Getter;
 import ru.solomka.graphic.scene.item.BaseComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
+import ru.solomka.graphic.scene.item.SizeProperties;
 import ru.solomka.graphic.scene.item.tag.ItemAnimation;
 import ru.solomka.graphic.scene.item.tag.enums.ItemAlignment;
 import ru.solomka.graphic.style.CssStyle;
@@ -29,6 +31,12 @@ public class BaseImage implements BaseComponent<AnchorPane>, ItemAnimation {
     }
 
     @Override
+    public void setRootElement(SceneItem<? extends Pane> item, double x, double y) {
+        this.setLocation(x, y);
+        item.getElement().getChildren().add(this.container);
+    }
+
+    @Override
     public <I extends SceneItem<AnchorPane>> I initStyle(CssStyle... properties) {
         this.container.setStyle(CssStyle.getCssString(properties));
         return (I) this;
@@ -44,6 +52,11 @@ public class BaseImage implements BaseComponent<AnchorPane>, ItemAnimation {
     public void setLocation(Padding padding) {
         this.container.setLayoutX(this.container.getLayoutX() + padding.getLeft() + padding.getRight());
         this.container.setLayoutY(this.container.getLayoutY() + padding.getTop() + padding.getBottom());
+    }
+
+    @Override
+    public SizeProperties getSize() {
+        return new SizeProperties(this.container.getPrefWidth(), this.container.getPrefHeight());
     }
 
     @Override

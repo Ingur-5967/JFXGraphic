@@ -1,6 +1,7 @@
 package ru.solomka.graphic.scene.item;
 
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import ru.solomka.graphic.scene.item.impl.base.BaseButton;
 import ru.solomka.graphic.style.CssStyle;
 import ru.solomka.graphic.style.Padding;
@@ -58,7 +59,6 @@ public interface SceneItem<T extends Node> {
         return null;
     }
 
-
     @SuppressWarnings("unchecked")
     static <N extends Node> SceneItem<N> fromSource(N source) {
         return new SceneItem<>() {
@@ -95,6 +95,24 @@ public interface SceneItem<T extends Node> {
             public N getElement() {
                 return source;
             }
+
+            @Override
+            public SizeProperties getSize() {
+                return new SizeProperties(source.getBoundsInParent().getWidth(), source.getBoundsInParent().getHeight());
+            }
         };
     }
+
+    default void setRootElement(SceneItem<? extends Pane> item, double x, double y) {
+    }
+
+    default void setRootElement(Node node) {
+    }
+
+    /**
+     * Returns size of root object
+     *
+     * @return Returns size of root object
+     */
+    SizeProperties getSize();
 }

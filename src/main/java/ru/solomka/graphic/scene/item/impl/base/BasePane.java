@@ -2,6 +2,7 @@ package ru.solomka.graphic.scene.item.impl.base;
 
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.SizeProperties;
 import ru.solomka.graphic.scene.item.tag.Container;
@@ -14,10 +15,15 @@ public class BasePane implements Container, SceneItem<AnchorPane> {
 
     private final AnchorPane container;
 
-    public BasePane(int width, int height, String id) {
+    public BasePane(double width, double height) {
         this.container = new AnchorPane();
         this.container.setPrefSize(width, height);
-        this.container.setId(id);
+    }
+
+    @Override
+    public void setRootElement(SceneItem<? extends Pane> item, double x, double y) {
+        this.setLocation(x, y);
+        item.getElement().getChildren().addAll(this.container);
     }
 
     @Override
@@ -44,6 +50,11 @@ public class BasePane implements Container, SceneItem<AnchorPane> {
     }
 
     @Override
+    public SizeProperties getSize() {
+        return new SizeProperties(this.container.getPrefWidth(), this.container.getPrefHeight());
+    }
+
+    @Override
     public AnchorPane getElement() {
         return this.container;
     }
@@ -51,10 +62,5 @@ public class BasePane implements Container, SceneItem<AnchorPane> {
     @Override
     public List<Node> getChildren() {
         return this.container.getChildren();
-    }
-
-    @Override
-    public SizeProperties getBounds() {
-        return new SizeProperties(this.container.getPrefWidth(), this.container.getPrefHeight());
     }
 }

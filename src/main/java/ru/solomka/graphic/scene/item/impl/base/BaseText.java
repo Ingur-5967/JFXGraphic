@@ -12,6 +12,7 @@ import lombok.Setter;
 import ru.solomka.graphic.JFXGraphic;
 import ru.solomka.graphic.scene.item.BaseComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
+import ru.solomka.graphic.scene.item.SizeProperties;
 import ru.solomka.graphic.style.CssStyle;
 import ru.solomka.graphic.style.Padding;
 
@@ -79,7 +80,7 @@ public class BaseText implements BaseComponent<AnchorPane> {
     /**
      * Concat {@code content} to exists object {@code Label} in data list {@code BaseText}.
      * If list is empty, then the {@code content} element becomes the first element in the data list.
-     M     * <p>
+     * <p>
      * Root method: {@link BaseText#addTextToObject(String, String, int)}
      * </p>
      * 
@@ -171,6 +172,19 @@ public class BaseText implements BaseComponent<AnchorPane> {
         return this.textData.get(index);
     }
 
+    @Override
+    public void setRootElement(SceneItem<? extends Pane> item, double x, double y) {
+        if (this.textData.isEmpty())
+            throw new NullPointerException("TextData is empty");
+
+        this.textData.forEach(component -> {
+            component.setLayoutX(x);
+            component.setLayoutY(y);
+        });
+
+        item.getElement().getChildren().addAll(this.textData);
+    }
+
     private Label initBaseObject(String content, int font) {
         Label base = new Label(content);
         base.setFont(Font.font(font));
@@ -205,6 +219,11 @@ public class BaseText implements BaseComponent<AnchorPane> {
     public void setLocation(Padding padding) {
         this.container.setLayoutX(this.container.getLayoutX() + padding.getLeft() + padding.getRight());
         this.container.setLayoutY(this.container.getLayoutY() + padding.getTop() + padding.getBottom());
+    }
+
+    @Override
+    public SizeProperties getSize() {
+        return new SizeProperties(this.container.getPrefWidth(), this.container.getPrefHeight());
     }
 
     @Override

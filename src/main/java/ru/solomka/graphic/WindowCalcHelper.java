@@ -4,7 +4,9 @@ import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import lombok.NonNull;
+import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.SizeProperties;
+import ru.solomka.graphic.scene.item.tag.enums.ItemAlignment;
 
 public class WindowCalcHelper {
 
@@ -39,7 +41,7 @@ public class WindowCalcHelper {
         if (regular.getPrefWidth() <= 0 || regular.getPrefHeight() <= 0)
             throw new IllegalArgumentException("Regular node width and height must be greater than 0");
 
-        return pane.getPrefHeight() / 2 - regular.getPrefHeight() / 1.8477;
+        return pane.getPrefHeight() / 2 - regular.getPrefHeight() / 1.8479;
     }
 
     /**
@@ -50,5 +52,49 @@ public class WindowCalcHelper {
      */
     public static SizeProperties getSizeComponent(@NonNull Node node) {
         return new SizeProperties(node.getBoundsInParent().getWidth(), node.getBoundsInParent().getHeight());
+    }
+
+    /**
+     * Returns X or Y coordinate
+     *
+     * @param pane      local parent
+     * @param regular   target element for calculated fixed position (DOWN position)
+     * @param alignment orientation for result
+     * @return Returns X or Y coordinate
+     */
+
+    public static double getPositionBorder(Pane pane, SceneItem<AnchorPane> regular, ItemAlignment alignment) {
+        switch (alignment) {
+            case LEFT, TOP -> {
+                return 0.0;
+            }
+            case RIGHT -> {
+                return pane.getPrefWidth();
+            }
+            case DOWN -> {
+                if (regular == null)
+                    throw new IllegalArgumentException("Regular node must not be null for calculate DOWN position");
+
+                return pane.getPrefHeight() - regular.getElement().getPrefHeight();
+            }
+            default -> {
+                return -1;
+            }
+        }
+    }
+
+    /**
+     * Returns X or Y coordinate
+     * <p>
+     * Root method: {@link WindowCalcHelper#getPositionBorder(Pane, SceneItem, ItemAlignment) }
+     * </p>
+     *
+     * @param pane      local parent
+     * @param alignment orientation for result
+     * @return Returns X or Y coordinate
+     */
+
+    public static double getPositionBorder(Pane pane, ItemAlignment alignment) {
+        return getPositionBorder(pane, null, alignment);
     }
 }
