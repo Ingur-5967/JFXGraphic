@@ -27,7 +27,6 @@ public class LinkedPane extends BasePane implements LazyComponent<LinkedPane, An
      *
      * @param element target element for which there will be a resizing
      */
-
     public void setAdaptiveSize(SceneItem<?> element) {
         if (element.getSize().getWidth() <= 0 || element.getSize().getHeight() <= 0)
             throw new IllegalArgumentException("Size cannot be zero or negative.");

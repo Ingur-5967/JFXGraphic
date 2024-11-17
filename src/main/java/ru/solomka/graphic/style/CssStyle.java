@@ -1,6 +1,10 @@
 package ru.solomka.graphic.style;
 
 
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,6 +39,12 @@ public class CssStyle {
 
     public static CssStyle empty() {
         return new CssStyle("");
+    }
+
+    public static Scene getTransparentWindow(Stage stage, Scene scene) {
+        stage.initStyle(StageStyle.TRANSPARENT);
+        scene.setFill(Color.TRANSPARENT);
+        return scene;
     }
 
     public enum Properties {

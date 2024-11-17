@@ -24,7 +24,7 @@ public class WindowCalcHelper {
         if (regular.getPrefWidth() <= 0 || regular.getPrefHeight() <= 0)
             throw new IllegalArgumentException("Regular node width and height must be greater than 0");
 
-        return pane.getPrefWidth() / 2 - regular.getPrefWidth() / 1.99;
+        return pane.getPrefWidth() / 2 - regular.getPrefWidth() / 1.957;
     }
 
     /**
