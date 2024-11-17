@@ -4,6 +4,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import lombok.Getter;
 import lombok.Setter;
 import ru.solomka.graphic.JFXGraphic;
@@ -58,6 +61,12 @@ public final class SceneEntry {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Scene getTransparentWindow(Stage stage, Scene scene) {
+        stage.initStyle(StageStyle.TRANSPARENT);
+        scene.setFill(Color.TRANSPARENT);
+        return scene;
     }
 
     /**
