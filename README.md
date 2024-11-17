@@ -20,7 +20,7 @@ public class App extends JFXGraphic {
 
         SingleLabel singleLabel = new SingleLabel("Login", 25);
         singleLabel.setRootElement(pane, WindowCalcHelper.getCentreX(pane.getElement(), singleLabel.getElement()), WindowCalcHelper.getCentreY(pane.getElement(), singleLabel.getElement()) - 155);
-        singleLabel.getLineObject(0).setStyle("-fx-text-fill: black");
+        singleLabel.initStyle(singleLabel.getLineObject(0), new CssStyle(CssStyle.Properties.TEXT_FILL_COLOR.getProperty("black")));
 
         stage.setScene(scene);
         setPrimaryStage(stage);
