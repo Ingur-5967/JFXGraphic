@@ -15,7 +15,7 @@ public class App extends JFXGraphic {
         LinkedPane pane = new LinkedPane(450, 600)
                 .initStyle(new CssStyle(CssStyle.Properties.BACKGROUND_COLOR.getProperty("white")));
 
-        Scene scene = CssStyle.getTransparentWindow(stage, sceneEntry.initScene(pane.getElement()));
+        Scene scene = SceneEntry.getTransparentWindow(stage, sceneEntry.initScene(pane.getElement()));
 
         SingleLabel singleLabel = new SingleLabel("Login" ,25);
         singleLabel.setRootElement(
