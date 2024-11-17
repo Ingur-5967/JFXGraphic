@@ -5,7 +5,6 @@ import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import ru.solomka.graphic.scene.item.LazyComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
-import ru.solomka.graphic.scene.item.SizeProperties;
 import ru.solomka.graphic.scene.item.impl.base.BasePane;
 
 import java.lang.reflect.InvocationTargetException;
@@ -29,13 +28,6 @@ public interface Container {
      * @return Returns non-abstract content the container
      */
     List<Node> getChildren();
-
-    /**
-     * Returns size of root object
-     *
-     * @return Returns size of root object
-     */
-    SizeProperties getBounds();
 
     /**
      * Adds new child to abstract container
