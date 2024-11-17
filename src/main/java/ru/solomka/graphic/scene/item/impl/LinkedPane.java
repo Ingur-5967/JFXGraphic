@@ -31,9 +31,6 @@ public class LinkedPane extends BasePane implements LazyComponent<LinkedPane, An
         if (element.getSize().getWidth() <= 0 || element.getSize().getHeight() <= 0)
             throw new IllegalArgumentException("Size cannot be zero or negative.");
 
-        System.out.println(element.getSize().getWidth());
-        System.out.println(element.getSize().getHeight());
-
         this.getElement().setPrefSize(element.getSize().getWidth(), element.getSize().getHeight());
     }
 
