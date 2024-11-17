@@ -9,18 +9,22 @@ public class App extends JFXGraphic {
 
     @Override
     public void onEnable(Stage stage) {
-        setGraphicInstance(this);
-
         SceneEntry sceneEntry = new SceneEntry(new SizeProperties(450, 550));
         this.setScene(sceneEntry);
 
-        LinkedPane pane = new LinkedPane(450, 600).initStyle(new CssStyle(CssStyle.Properties.BACKGROUND_COLOR.getProperty("white")));
+        LinkedPane pane = new LinkedPane(450, 600)
+                .initStyle(new CssStyle(CssStyle.Properties.BACKGROUND_COLOR.getProperty("white")));
 
         Scene scene = CssStyle.getTransparentWindow(stage, sceneEntry.initScene(pane.getElement()));
 
-        SingleLabel singleLabel = new SingleLabel("Login", 25);
-        singleLabel.setRootElement(pane, WindowCalcHelper.getCentreX(pane.getElement(), singleLabel.getElement()), WindowCalcHelper.getCentreY(pane.getElement(), singleLabel.getElement()) - 155);
-        singleLabel.initStyle(singleLabel.getLineObject(0), new CssStyle(CssStyle.Properties.TEXT_FILL_COLOR.getProperty("black")));
+        SingleLabel singleLabel = new SingleLabel("Login" ,25);
+        singleLabel.setRootElement(
+                pane,
+                WindowCalcHelper.getCentreX(pane.getElement(), singleLabel.getElement()), WindowCalcHelper.getCentreY(pane.getElement(), singleLabel.getElement()) - 155
+        );
+        singleLabel.initStyle(
+                singleLabel.getLineObject(0), new CssStyle(CssStyle.Properties.TEXT_FILL_COLOR.getProperty("black"))
+        );
 
         stage.setScene(scene);
         setPrimaryStage(stage);
