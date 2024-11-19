@@ -75,7 +75,7 @@ public class WindowCalcHelper {
                 if (regular == null)
                     throw new IllegalArgumentException("Regular node must not be null for calculate DOWN position");
 
-                return pane.getPrefHeight() - regular.getElement().getPrefHeight();
+                return pane.getPrefHeight() - regular.getRoot().getBaseRegion().getPrefHeight();
             }
             default -> {
                 return -1;

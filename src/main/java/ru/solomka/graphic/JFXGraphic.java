@@ -1,14 +1,12 @@
 package ru.solomka.graphic;
 
 import javafx.application.Application;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
-import ru.solomka.graphic.event.EventProvider;
-import ru.solomka.graphic.event.Priority;
-import ru.solomka.graphic.event.device.Mouse;
-import ru.solomka.graphic.event.impl.MouseMoveEvent;
+import ru.solomka.graphic.device.Mouse;
 import ru.solomka.graphic.scene.SceneEntry;
 
 
@@ -39,17 +37,12 @@ public abstract class JFXGraphic extends Application {
         if (primaryStage == null)
             throw new NullPointerException("Stage is not initialized");
 
-        this.mouseInstance = new Mouse(new Mouse.Location(0, 0));
+        this.mouseInstance = new Mouse(new Mouse.Location(0, 0), MouseButton.NONE);
 
         Pane region = (Pane) primaryStage.getScene().getRoot();
 
-        region.setOnMouseMoved(mouse -> {
-            try {
-                EventProvider.call(new MouseMoveEvent(scene, mouse.getButton(), this.mouseInstance), Priority.values());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
+        region.setOnMouseMoved(mouse -> this.mouseInstance.setLocation(mouse.getSceneX(), mouse.getSceneY()));
+        region.setOnMouseClicked(mouse -> this.mouseInstance.setLastButtonClicked(mouse.getButton()));
 
         stage.show();
     }
@@ -59,6 +52,8 @@ public abstract class JFXGraphic extends Application {
         this.onDisable();
         primaryStage.close();
         primaryStage = null;
+        graphicInstance = null;
+        this.scene = null;
         this.mouseInstance = null;
     }
 
