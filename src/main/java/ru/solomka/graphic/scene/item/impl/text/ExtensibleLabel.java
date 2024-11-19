@@ -7,7 +7,7 @@ public class ExtensibleLabel extends BaseText {
 
     public ExtensibleLabel(String content, int font, int initialCountLines) {
         super(content, font, initialCountLines);
-        this.getElement().getChildren().add(this.getLineObject(0));
+        this.getRoot().getChildren().add(this.getLineObject(0));
     }
 
     @Override

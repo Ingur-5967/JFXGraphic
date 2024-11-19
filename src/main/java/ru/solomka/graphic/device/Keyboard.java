@@ -1,4 +1,4 @@
-package ru.solomka.graphic.event.device;
+package ru.solomka.graphic.device;
 
 import javafx.scene.input.KeyCode;
 

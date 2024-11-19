@@ -1,20 +1,18 @@
 package ru.solomka.graphic.scene.item.tag;
 
-import javafx.scene.Node;
-import javafx.stage.Stage;
-import ru.solomka.graphic.event.Event;
-import ru.solomka.graphic.tool.Pair;
+import javafx.event.Event;
+import javafx.event.EventType;
 
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public interface Interact {
 
     /**
      * Sets the handler for a specific event
      *
-     * @param interact Pair with a primary stage and target node
+     * @param event Action before a call event
      * @param <E> Type of target event
      */
 
-    <E extends Event> void setup(BiConsumer<E, Pair<Stage, Node>> interact);
+    <E extends Event> void setup(EventType<E> eventType, Consumer<E> event);
 }

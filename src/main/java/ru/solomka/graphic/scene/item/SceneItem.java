@@ -2,7 +2,9 @@ package ru.solomka.graphic.scene.item;
 
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.impl.base.BaseButton;
+import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.style.CssStyle;
 import ru.solomka.graphic.style.Padding;
 
@@ -43,22 +45,6 @@ public interface SceneItem<T extends Node> {
     default void setInnerLocation(SceneItem<T> element, double x, double y) {
     }
 
-    /**
-     * Returns root element
-     *
-     * @return Returns root element
-     */
-    T getElement();
-
-    /**
-     * Returns content of root element
-     *
-     * @return Returns content of root element
-     */
-    default Object getElementContent() {
-        return null;
-    }
-
     @SuppressWarnings("unchecked")
     static <N extends Node> SceneItem<N> fromSource(N source) {
         return new SceneItem<>() {
@@ -92,8 +78,11 @@ public interface SceneItem<T extends Node> {
             }
 
             @Override
-            public N getElement() {
-                return source;
+            public Container getRoot() {
+                Pane region = ((Pane) source.getParent());
+                Container container = Container.fromSource(LinkedPane.class, region, new Object[]{region.getPrefWidth(), region.getPrefHeight()});
+                container.addChildren(this);
+                return container;
             }
 
             @Override
@@ -102,6 +91,22 @@ public interface SceneItem<T extends Node> {
             }
         };
     }
+
+    /**
+     * Returns content of root element
+     *
+     * @return Returns content of root element
+     */
+    default Object getElementContent() {
+        return null;
+    }
+
+    /**
+     * Returns root element
+     *
+     * @return Returns root element
+     */
+    Container getRoot();
 
     default void setRootElement(SceneItem<? extends Pane> item, double x, double y) {
     }

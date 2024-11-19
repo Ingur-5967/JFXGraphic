@@ -5,21 +5,23 @@ import javafx.scene.layout.AnchorPane;
 import ru.solomka.graphic.scene.item.LazyComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.base.BasePane;
+import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.scene.item.tag.Linked;
-import ru.solomka.graphic.tool.OperationSupplier;
-import ru.solomka.graphic.tool.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LinkedPane extends BasePane implements LazyComponent<LinkedPane, AnchorPane>, Linked {
+public final class LinkedPane extends BasePane implements LazyComponent<LinkedPane, AnchorPane>, Linked {
 
     private final List<SceneItem<?>> source;
 
     public LinkedPane(double width, double height) {
         super(width, height);
         this.source = new ArrayList<>();
+
+        if (this.getRoot() == null)
+            throw new NullPointerException("Root region cannot be null");
     }
 
     /**
@@ -31,19 +33,23 @@ public class LinkedPane extends BasePane implements LazyComponent<LinkedPane, An
         if (element.getSize().getWidth() <= 0 || element.getSize().getHeight() <= 0)
             throw new IllegalArgumentException("Size cannot be zero or negative.");
 
-        this.getElement().setPrefSize(element.getSize().getWidth(), element.getSize().getHeight());
+        this.getRoot().getBaseRegion().setPrefSize(element.getSize().getWidth(), element.getSize().getHeight());
     }
 
     @Override
-    public LinkedPane preInit(OperationSupplier<Pair<AnchorPane, List<SceneItem<?>>>> edit, SceneItem<?>... entries) {
-        List<Node> remap = Arrays.stream(Arrays.stream(entries).map(SceneItem::getElement).toArray(Node[]::new)).toList();
+    public LinkedPane preInit(SceneItem<?>... entries) {
+        List<SceneItem<?>> nodes = Arrays.stream(Arrays.stream(entries).map(SceneItem::getRoot).map(Container::getChildren).toArray(SceneItem<?>[]::new)).toList();
 
-        AnchorPane parent = this.getElement();
+        AnchorPane parent = this.getRoot().getBaseRegion();
 
         source.addAll(List.of(entries));
 
         parent.getChildren().addAll(
-                (edit != null ? edit.operate(new Pair<>(parent, Arrays.stream(entries).toList())).getSecond().stream().map(SceneItem::getElement).toList() : remap)
+                nodes.stream()
+                        .map(SceneItem::getRoot)
+                        .map(Container::getChildren)
+                        .map(element -> (Node) element)
+                        .toList()
         );
 
         return this;
@@ -52,12 +58,7 @@ public class LinkedPane extends BasePane implements LazyComponent<LinkedPane, An
     @Override
     public void addChildren(SceneItem<?> item) {
         this.source.add(item);
-        this.getElement().getChildren().add(item.getElement());
-    }
-
-    @Override
-    public LinkedPane preInit(SceneItem<?>... entries) {
-        return this.preInit(null, entries);
+        this.getRoot().getChildren().add(item.getRoot().getBaseRegion());
     }
 
     @Override
@@ -67,11 +68,16 @@ public class LinkedPane extends BasePane implements LazyComponent<LinkedPane, An
 
     @Override
     public SceneItem<?> get(String id) {
-        return this.source.stream().filter(node -> node.getElement().getId() != null && node.getElement().getId().equals(id)).findAny().orElse(null);
+        return this.source.stream().filter(node -> node.getRoot().getBaseRegion().getId() != null && node.getRoot().getBaseRegion().getId().equals(id)).findAny().orElse(null);
     }
 
     @Override
     public SceneItem<?> get(int position) {
         return this.source.get(position);
+    }
+
+    @Override
+    public Container getRoot() {
+        return super.getRoot();
     }
 }

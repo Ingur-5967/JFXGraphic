@@ -12,7 +12,7 @@ public class ImageViewer extends BaseImage {
         super(source, orientation);
 
         ImageView viewer = (ImageView) this.getElementContent();
-        AnchorPane parent = this.getElement();
+        AnchorPane parent = this.getRoot().getBaseRegion();
 
         parent.setPrefSize(width, height);
 

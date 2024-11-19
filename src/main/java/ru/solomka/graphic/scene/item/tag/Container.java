@@ -3,6 +3,7 @@ package ru.solomka.graphic.scene.item.tag;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import ru.solomka.graphic.scene.item.LazyComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.base.BasePane;
@@ -60,6 +61,8 @@ public interface Container {
 
         List<SceneItem<?>> items = region.getChildrenUnmodifiable().stream().filter(c -> c instanceof AnchorPane).map(SceneItem::fromSource).collect(Collectors.toList());
 
-        return items.isEmpty() ? loader : ((LazyComponent<? extends Container, ? extends Node>) loader).preInit(items.toArray(SceneItem[]::new));
+        return items.isEmpty() ? loader : ((LazyComponent<? extends Container, ? extends Node>) loader).preInit(items.toArray(SceneItem<?>[]::new));
     }
+
+    <P extends Pane> P getBaseRegion();
 }
