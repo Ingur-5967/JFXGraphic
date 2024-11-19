@@ -13,6 +13,8 @@ import ru.solomka.graphic.JFXGraphic;
 import ru.solomka.graphic.scene.item.BaseComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.SizeProperties;
+import ru.solomka.graphic.scene.item.impl.LinkedPane;
+import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.style.CssStyle;
 import ru.solomka.graphic.style.Padding;
 
@@ -182,7 +184,7 @@ public class BaseText implements BaseComponent<AnchorPane> {
             component.setLayoutY(y);
         });
 
-        item.getElement().getChildren().addAll(this.textData);
+        item.getRoot().getChildren().addAll(this.textData);
     }
 
     private Label initBaseObject(String content, int font) {
@@ -206,7 +208,7 @@ public class BaseText implements BaseComponent<AnchorPane> {
 
     @Override
     public <I extends SceneItem<AnchorPane>> I initStyle(SceneItem<?> item, CssStyle... properties) {
-        return this.initStyle(item.getElement(), properties);
+        return this.initStyle((Node) item.getRoot().getBaseRegion(), properties);
     }
 
     @Override
@@ -227,8 +229,8 @@ public class BaseText implements BaseComponent<AnchorPane> {
     }
 
     @Override
-    public AnchorPane getElement() {
-        return this.container;
+    public Container getRoot() {
+        return Container.fromSource(LinkedPane.class, this.container, new Object[]{this.container.getPrefWidth(), this.container.getPrefHeight()});
     }
 
     @Override

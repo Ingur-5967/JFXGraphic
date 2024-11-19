@@ -8,6 +8,8 @@ import lombok.Getter;
 import ru.solomka.graphic.scene.item.BaseComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.SizeProperties;
+import ru.solomka.graphic.scene.item.impl.LinkedPane;
+import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.scene.item.tag.ItemAnimation;
 import ru.solomka.graphic.scene.item.tag.enums.ItemAlignment;
 import ru.solomka.graphic.style.CssStyle;
@@ -33,7 +35,7 @@ public class BaseImage implements BaseComponent<AnchorPane>, ItemAnimation {
     @Override
     public void setRootElement(SceneItem<? extends Pane> item, double x, double y) {
         this.setLocation(x, y);
-        item.getElement().getChildren().add(this.container);
+        item.getRoot().getChildren().add(this.container);
     }
 
     @Override
@@ -70,8 +72,8 @@ public class BaseImage implements BaseComponent<AnchorPane>, ItemAnimation {
     }
 
     @Override
-    public AnchorPane getElement() {
-        return this.container;
+    public Container getRoot() {
+        return Container.fromSource(LinkedPane.class, this.container, new Object[]{this.container.getPrefWidth(), this.container.getPrefHeight()});
     }
 
     @Override

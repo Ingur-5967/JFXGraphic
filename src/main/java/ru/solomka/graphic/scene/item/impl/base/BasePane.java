@@ -23,7 +23,7 @@ public class BasePane implements Container, SceneItem<AnchorPane> {
     @Override
     public void setRootElement(SceneItem<? extends Pane> item, double x, double y) {
         this.setLocation(x, y);
-        item.getElement().getChildren().addAll(this.container);
+        item.getRoot().getChildren().addAll(this.container.getChildren());
     }
 
     @Override
@@ -50,17 +50,22 @@ public class BasePane implements Container, SceneItem<AnchorPane> {
     }
 
     @Override
+    public Container getRoot() {
+        return this;
+    }
+
+    @Override
     public SizeProperties getSize() {
         return new SizeProperties(this.container.getPrefWidth(), this.container.getPrefHeight());
     }
 
     @Override
-    public AnchorPane getElement() {
-        return this.container;
+    public List<Node> getChildren() {
+        return this.container.getChildren();
     }
 
     @Override
-    public List<Node> getChildren() {
-        return this.container.getChildren();
+    public <P extends Pane> P getBaseRegion() {
+        return (P) this.container;
     }
 }
