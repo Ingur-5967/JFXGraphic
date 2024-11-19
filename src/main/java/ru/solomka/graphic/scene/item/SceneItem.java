@@ -45,6 +45,35 @@ public interface SceneItem<T extends Node> {
     default void setInnerLocation(SceneItem<T> element, double x, double y) {
     }
 
+    /**
+     * Returns content of root element
+     *
+     * @return Returns content of root element
+     */
+    default Object getElementContent() {
+        return null;
+    }
+
+    /**
+     * Returns root element
+     *
+     * @return Returns root element
+     */
+    Container getRoot();
+
+    default void setRootElement(SceneItem<? extends Pane> item, double x, double y) {
+    }
+
+    default void setRootElement(Node node) {
+    }
+
+    /**
+     * Returns size of root object
+     *
+     * @return Returns size of root object
+     */
+    SizeProperties getSize();
+
     @SuppressWarnings("unchecked")
     static <N extends Node> SceneItem<N> fromSource(N source) {
         return new SceneItem<>() {
@@ -89,33 +118,4 @@ public interface SceneItem<T extends Node> {
             }
         };
     }
-
-    /**
-     * Returns content of root element
-     *
-     * @return Returns content of root element
-     */
-    default Object getElementContent() {
-        return null;
-    }
-
-    /**
-     * Returns root element
-     *
-     * @return Returns root element
-     */
-    Container getRoot();
-
-    default void setRootElement(SceneItem<? extends Pane> item, double x, double y) {
-    }
-
-    default void setRootElement(Node node) {
-    }
-
-    /**
-     * Returns size of root object
-     *
-     * @return Returns size of root object
-     */
-    SizeProperties getSize();
 }
