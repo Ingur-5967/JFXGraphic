@@ -80,9 +80,7 @@ public interface SceneItem<T extends Node> {
             @Override
             public Container getRoot() {
                 Pane region = ((Pane) source.getParent());
-                Container container = Container.fromSource(LinkedPane.class, region, new Object[]{region.getPrefWidth(), region.getPrefHeight()});
-                container.addChildren(this);
-                return container;
+                return Container.fromSource(LinkedPane.class, region, new Object[]{region.getPrefWidth(), region.getPrefHeight()});
             }
 
             @Override
