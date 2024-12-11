@@ -53,10 +53,10 @@ public class BasePage extends BasePane implements Page {
             return new SizeProperties(0, 0);
 
         double width = this.data.stream().mapToDouble(component -> ((AnchorPane) component.getRoot()).getPrefWidth()).sum();
-        double height = this.data.stream().mapToDouble(component -> ((AnchorPane) component.getRoot()).getPrefHeight()).max().orElse(-1);
 
-        if (height == -1)
-            throw new RuntimeException("Data of page cannot get a max height of element");
+        double height = this.data.stream().mapToDouble(component -> ((AnchorPane) component.getRoot()).getPrefHeight()).max()
+                .orElseThrow(() -> new RuntimeException("Data of page cannot get a max height of element"));
+
 
         return new SizeProperties(width, height);
     }

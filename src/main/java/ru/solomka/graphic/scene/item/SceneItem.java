@@ -40,7 +40,7 @@ public interface SceneItem<T extends Node> {
      *
      * @param padding Indents on all sides
      */
-    void setLocation(Padding padding);
+    default void setLocation(Padding padding) {}
 
     default void setInnerLocation(SceneItem<T> element, double x, double y) {
     }

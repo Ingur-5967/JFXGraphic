@@ -50,6 +50,8 @@ public interface Container {
         return Collections.emptyList();
     }
 
+    <P extends Pane> P getBaseRegion();
+
     @SuppressWarnings("unchecked")
     static <I extends Container> Container fromSource(Class<I> instance, Parent region, Object[] properties) {
         I loader;
@@ -63,6 +65,4 @@ public interface Container {
 
         return items.isEmpty() ? loader : ((LazyComponent<? extends Container, ? extends Node>) loader).preInit(items.toArray(SceneItem<?>[]::new));
     }
-
-    <P extends Pane> P getBaseRegion();
 }

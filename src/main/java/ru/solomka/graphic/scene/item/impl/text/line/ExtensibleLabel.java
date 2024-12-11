@@ -1,4 +1,4 @@
-package ru.solomka.graphic.scene.item.impl.text;
+package ru.solomka.graphic.scene.item.impl.text.line;
 
 import ru.solomka.graphic.scene.item.impl.base.BaseText;
 import ru.solomka.graphic.style.CssStyle;
