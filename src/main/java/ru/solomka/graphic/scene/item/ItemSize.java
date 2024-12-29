@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SizeProperties {
+public class ItemSize {
     private final double width;
     private final double height;
 }
