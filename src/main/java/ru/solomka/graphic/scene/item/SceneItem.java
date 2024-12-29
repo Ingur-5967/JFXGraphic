@@ -35,45 +35,6 @@ public interface SceneItem<T extends Node> {
      */
     void setLocation(double x, double y);
 
-    /**
-     * Changes the location by adding indents to the coordinates
-     *
-     * @param padding Indents on all sides
-     */
-    default void setLocation(Padding padding) {}
-
-    default void setInnerLocation(SceneItem<T> element, double x, double y) {
-    }
-
-    /**
-     * Returns content of root element
-     *
-     * @return Returns content of root element
-     */
-    default Object getElementContent() {
-        return null;
-    }
-
-    /**
-     * Returns root element
-     *
-     * @return Returns root element
-     */
-    Container getRoot();
-
-    default void setRootElement(SceneItem<? extends Pane> item, double x, double y) {
-    }
-
-    default void setRootElement(Node node) {
-    }
-
-    /**
-     * Returns size of root object
-     *
-     * @return Returns size of root object
-     */
-    SizeProperties getSize();
-
     @SuppressWarnings("unchecked")
     static <N extends Node> SceneItem<N> fromSource(N source) {
         return new SceneItem<>() {
@@ -101,6 +62,11 @@ public interface SceneItem<T extends Node> {
             }
 
             @Override
+            public Location getLocation() {
+                return new Location(source.getLayoutX(), source.getLayoutY());
+            }
+
+            @Override
             public void setLocation(Padding padding) {
                 source.setLayoutX(source.getLayoutX() + padding.getLeft() + padding.getRight());
                 source.setLayoutY(source.getLayoutY() + padding.getTop() + padding.getBottom());
@@ -108,14 +74,57 @@ public interface SceneItem<T extends Node> {
 
             @Override
             public Container getRoot() {
-                Pane region = ((Pane) source.getParent());
+                Pane region = source.getParent() == null ? (Pane) source : (Pane) source.getParent();
                 return Container.fromSource(LinkedPane.class, region, new Object[]{region.getPrefWidth(), region.getPrefHeight()});
             }
 
             @Override
-            public SizeProperties getSize() {
-                return new SizeProperties(source.getBoundsInParent().getWidth(), source.getBoundsInParent().getHeight());
+            public ItemSize getSize() {
+                return new ItemSize(source.getBoundsInParent().getWidth(), source.getBoundsInParent().getHeight());
             }
         };
     }
+
+    /**
+     * Changes the location by adding indents to the coordinates
+     *
+     * @param padding Indents on all sides
+     */
+    default void setLocation(Padding padding) {}
+
+    /**
+     * Returns current position element
+     *
+     * @return Returns current position element
+     */
+    Location getLocation();
+
+    /**
+     * Returns content of root element
+     *
+     * @return Returns content of root element
+     */
+    default Object getElementContent() {
+        return null;
+    }
+
+    /**
+     * Returns root element
+     *
+     * @return Returns root element
+     */
+    Container getRoot();
+
+    default void setInnerLocation(SceneItem<?> item, double x, double y) {
+    }
+
+    default void setRootElement(Container parent, double x, double y) {
+    }
+
+    /**
+     * Returns size of root object
+     *
+     * @return Returns size of root object
+     */
+    ItemSize getSize();
 }
