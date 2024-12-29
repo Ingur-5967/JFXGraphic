@@ -1,11 +1,9 @@
-package ru.solomka.graphic.tool;
-
-import ru.solomka.graphic.JFXGraphic;
+package ru.solomka.graphic;
 
 import java.io.InputStream;
 import java.net.URL;
 
-public class ResourceUtils {
+public class SceneFileResource {
     public static InputStream getFileAsStream(String absolutePath) {
         return JFXGraphic.getInstance().getClass().getClassLoader().getResourceAsStream(absolutePath);
     }
