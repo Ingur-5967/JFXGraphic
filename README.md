@@ -47,7 +47,7 @@ public class Template extends OrderlySceneTemplate {
 }
 ```
 ```java
-public class Template extends DefaultTemplate {
+public class Template extends InitialSceneTemplate {
 
     public Template() {
         super("default-template");
@@ -57,7 +57,7 @@ public class Template extends DefaultTemplate {
     public void load(SceneEntry entry) {
         LinkedPane container = (LinkedPane) entry.getMainLayout();
         SingleLabel singleLabel = new SingleLabel("Login", 25);
-        singleLabel.initStyle(singleLabel.getLineObject(0), new CssStyle(CssStyle.Properties.TEXT_FILL_COLOR))
+        singleLabel.initStyle(singleLabel.getLineObject(0), new CssStyle(CssStyle.Properties.TEXT_FILL_COLOR.getProperty("blue")))
 
         singleLabel.setRootElement(
                 container,
