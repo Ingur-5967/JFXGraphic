@@ -1,63 +1,51 @@
 package ru.solomka.graphic;
 
 import javafx.application.Application;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
-import ru.solomka.graphic.device.Mouse;
 import ru.solomka.graphic.scene.SceneEntry;
+import ru.solomka.graphic.scene.template.TemplateContainer;
 
 
 public abstract class JFXGraphic extends Application {
 
     @Setter
     @Getter
-    private static JFXGraphic graphicInstance;
+    private static JFXGraphic instance;
+
+    @Getter
+    private static TemplateContainer templateContainer;
 
     @Setter
     @Getter
     private static Stage primaryStage;
 
     @Getter
-    private Mouse mouseInstance;
-
-    @Getter
     @Setter
-    private SceneEntry scene;
+    private SceneEntry sceneEntry;
 
     @Override
     public void start(Stage stage) {
+        instance = this;
+        templateContainer = TemplateContainer.create();
+
         this.onEnable(stage);
 
-        if (scene == null)
+        if (sceneEntry == null)
             throw new NullPointerException("SceneEntry is not initialized");
 
-        if (primaryStage == null)
-            throw new NullPointerException("Stage is not initialized");
-
-        this.mouseInstance = new Mouse(new Mouse.Location(0, 0), MouseButton.NONE);
-
-        Pane region = (Pane) primaryStage.getScene().getRoot();
-
-        region.setOnMouseMoved(mouse -> this.mouseInstance.setLocation(mouse.getSceneX(), mouse.getSceneY()));
-        region.setOnMouseClicked(mouse -> this.mouseInstance.setLastButtonClicked(mouse.getButton()));
-
+        primaryStage = stage;
         stage.show();
     }
 
     @Override
     public void stop() {
         this.onDisable();
-        primaryStage.close();
-        primaryStage = null;
-        graphicInstance = null;
-        this.scene = null;
-        this.mouseInstance = null;
+        instance = null;
     }
 
     public abstract void onEnable(Stage stage);
-
     public abstract void onDisable();
+
 }

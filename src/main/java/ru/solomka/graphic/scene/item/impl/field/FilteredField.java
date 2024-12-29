@@ -11,16 +11,17 @@ public class FilteredField extends BaseInput {
     }
 
     /**
-     * Returns any value after validate with {@code Predicate<String>}
+     * Returns any value after validate by {@code Predicate<String>}
      * <br>
-     * Value can be {@code null}, if criteria is not passed
+     * If test is not passed, returns Optional[null]
      *
-     * @return Returns any value after validate with {@code Predicate<String>}
+     * @return Returns any value after validate by {@code Predicate<String>}
      */
-    public Object getContentAfterCriteriaTest() {
-        return Optional.ofNullable((TextField) this.getElementContent())
-                .filter(field -> this.validateWithPrincipe(field.getText()))
+    public Optional<String> getContentAfterCriteriaTest() {
+        TextField box = (TextField) this.getElementContent();
+        return Optional.ofNullable(box).stream()
                 .map(TextField::getText)
-                .orElse(null);
+                .filter(this::validateWithPrincipe)
+                .findFirst();
     }
 }

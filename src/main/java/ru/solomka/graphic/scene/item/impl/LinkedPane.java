@@ -38,7 +38,10 @@ public final class LinkedPane extends BasePane implements LazyComponent<LinkedPa
 
     @Override
     public LinkedPane preInit(SceneItem<?>... entries) {
-        List<SceneItem<?>> nodes = Arrays.stream(Arrays.stream(entries).map(SceneItem::getRoot).map(Container::getChildren).toArray(SceneItem<?>[]::new)).toList();
+        List<SceneItem<?>> nodes = Arrays.stream(Arrays.stream(entries)
+                .map(SceneItem::getRoot)
+                .map(Container::getChildren)
+                .toArray(SceneItem<?>[]::new)).toList();
 
         AnchorPane parent = this.getRoot().getBaseRegion();
 
@@ -68,7 +71,9 @@ public final class LinkedPane extends BasePane implements LazyComponent<LinkedPa
 
     @Override
     public SceneItem<?> get(String id) {
-        return this.source.stream().filter(node -> node.getRoot().getBaseRegion().getId() != null && node.getRoot().getBaseRegion().getId().equals(id)).findAny().orElse(null);
+        return this.source.stream()
+                .filter(node -> node.getRoot().getBaseRegion().getId() != null && node.getRoot().getBaseRegion().getId().equals(id))
+                .findAny().orElse(null);
     }
 
     @Override

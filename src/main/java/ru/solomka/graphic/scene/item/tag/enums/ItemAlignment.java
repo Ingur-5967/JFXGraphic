@@ -4,6 +4,5 @@ public enum ItemAlignment {
     LEFT,
     RIGHT,
     DOWN,
-    TOP,
-    NONE
+    TOP
 }

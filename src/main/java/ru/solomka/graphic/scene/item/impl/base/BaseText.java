@@ -11,8 +11,9 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.solomka.graphic.JFXGraphic;
 import ru.solomka.graphic.scene.item.BaseComponent;
+import ru.solomka.graphic.scene.item.ItemSize;
+import ru.solomka.graphic.scene.item.Location;
 import ru.solomka.graphic.scene.item.SceneItem;
-import ru.solomka.graphic.scene.item.SizeProperties;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.style.CssStyle;
@@ -24,6 +25,7 @@ import java.util.List;
 public class BaseText implements BaseComponent<AnchorPane> {
 
     private final AnchorPane container;
+    private final Location location;
 
     @Getter
     private final List<Label> textData;
@@ -34,6 +36,7 @@ public class BaseText implements BaseComponent<AnchorPane> {
     public BaseText(String content, int font, int maxLines) {
         this.container = new AnchorPane();
         this.textData = new ArrayList<>();
+        this.location = new Location(0.0, 0.0);
         this.maxLines = maxLines;
 
         Label base = this.initBaseObject(content, font);
@@ -166,7 +169,6 @@ public class BaseText implements BaseComponent<AnchorPane> {
      * @return Returns an existing item to the list date
      * @throws IndexOutOfBoundsException {@code index < 0} or <p>{@code index >= BaseText#getTextData().size()}</p>
      */
-
     public Label getLineObject(int index) {
         if (index < 0 || index >= this.textData.size())
             throw new IllegalArgumentException("Index must be between 0 and " + (this.textData.size() - 1));
@@ -175,7 +177,7 @@ public class BaseText implements BaseComponent<AnchorPane> {
     }
 
     @Override
-    public void setRootElement(SceneItem<? extends Pane> item, double x, double y) {
+    public void setRootElement(Container parent, double x, double y) {
         if (this.textData.isEmpty())
             throw new NullPointerException("TextData is empty");
 
@@ -184,7 +186,9 @@ public class BaseText implements BaseComponent<AnchorPane> {
             component.setLayoutY(y);
         });
 
-        item.getRoot().getChildren().addAll(this.textData);
+        this.setLocation(x, y);
+
+        this.textData.forEach(_ -> parent.getBaseRegion().getChildren().addAll(this.textData));
     }
 
     private Label initBaseObject(String content, int font) {
@@ -208,29 +212,36 @@ public class BaseText implements BaseComponent<AnchorPane> {
 
     @Override
     public <I extends SceneItem<AnchorPane>> I initStyle(SceneItem<?> item, CssStyle... properties) {
-        return this.initStyle((Node) item.getRoot().getBaseRegion(), properties);
+        return this.initStyle((Pane) item.getRoot().getBaseRegion(), properties);
     }
 
     @Override
     public void setLocation(double x, double y) {
         this.container.setLayoutX(x);
         this.container.setLayoutY(y);
+        this.location.update(x, y);
+    }
+
+    @Override
+    public ItemSize getSize() {
+        return new ItemSize(this.container.getPrefWidth(), this.container.getPrefHeight());
+    }
+
+    @Override
+    public Location getLocation() {
+        return this.location;
+    }
+
+    @Override
+    public Container getRoot() {
+        return Container.fromSource(LinkedPane.class, this.container, new Object[]{this.container.getPrefWidth(), this.container.getPrefHeight()});
     }
 
     @Override
     public void setLocation(Padding padding) {
         this.container.setLayoutX(this.container.getLayoutX() + padding.getLeft() + padding.getRight());
         this.container.setLayoutY(this.container.getLayoutY() + padding.getTop() + padding.getBottom());
-    }
-
-    @Override
-    public SizeProperties getSize() {
-        return new SizeProperties(this.container.getPrefWidth(), this.container.getPrefHeight());
-    }
-
-    @Override
-    public Container getRoot() {
-        return Container.fromSource(LinkedPane.class, this.container, new Object[]{this.container.getPrefWidth(), this.container.getPrefHeight()});
+        this.location.update(this.container.getLayoutX(), this.container.getLayoutY());
     }
 
     @Override

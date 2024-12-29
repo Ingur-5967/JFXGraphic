@@ -3,11 +3,11 @@ package ru.solomka.graphic.scene.item.impl.base;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import lombok.Getter;
 import ru.solomka.graphic.scene.item.BaseComponent;
+import ru.solomka.graphic.scene.item.ItemSize;
+import ru.solomka.graphic.scene.item.Location;
 import ru.solomka.graphic.scene.item.SceneItem;
-import ru.solomka.graphic.scene.item.SizeProperties;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.scene.item.tag.ItemAnimation;
@@ -21,11 +21,14 @@ public class BaseImage implements BaseComponent<AnchorPane>, ItemAnimation {
     private final ImageView viewer;
     @Getter
     private final ItemAlignment orientation;
+
     private boolean animation;
+    private final Location location;
 
     public BaseImage(Image source, ItemAlignment orientation) {
         this.container = new AnchorPane();
         this.orientation = orientation;
+        this.location = new Location(0.0, 0.0);
 
         this.animation = false;
 
@@ -33,9 +36,9 @@ public class BaseImage implements BaseComponent<AnchorPane>, ItemAnimation {
     }
 
     @Override
-    public void setRootElement(SceneItem<? extends Pane> item, double x, double y) {
+    public void setRootElement(Container parent, double x, double y) {
         this.setLocation(x, y);
-        item.getRoot().getChildren().add(this.container);
+        parent.addChildren(this.container);
     }
 
     @Override
@@ -48,17 +51,17 @@ public class BaseImage implements BaseComponent<AnchorPane>, ItemAnimation {
     public void setLocation(double x, double y) {
         this.container.setLayoutX(x);
         this.container.setLayoutY(y);
+        this.location.update(x, y);
     }
 
     @Override
-    public void setLocation(Padding padding) {
-        this.container.setLayoutX(this.container.getLayoutX() + padding.getLeft() + padding.getRight());
-        this.container.setLayoutY(this.container.getLayoutY() + padding.getTop() + padding.getBottom());
+    public ItemSize getSize() {
+        return new ItemSize(this.container.getPrefWidth(), this.container.getPrefHeight());
     }
 
     @Override
-    public SizeProperties getSize() {
-        return new SizeProperties(this.container.getPrefWidth(), this.container.getPrefHeight());
+    public Location getLocation() {
+        return this.location;
     }
 
     @Override
@@ -74,6 +77,13 @@ public class BaseImage implements BaseComponent<AnchorPane>, ItemAnimation {
     @Override
     public Container getRoot() {
         return Container.fromSource(LinkedPane.class, this.container, new Object[]{this.container.getPrefWidth(), this.container.getPrefHeight()});
+    }
+
+    @Override
+    public void setLocation(Padding padding) {
+        this.container.setLayoutX(this.container.getLayoutX() + padding.getLeft() + padding.getRight());
+        this.container.setLayoutY(this.container.getLayoutY() + padding.getTop() + padding.getBottom());
+        this.location.update(this.container.getLayoutX(), this.container.getLayoutY());
     }
 
     @Override

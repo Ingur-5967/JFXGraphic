@@ -2,21 +2,21 @@ package ru.solomka.graphic.scene.item.impl.base;
 
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
+import ru.solomka.graphic.scene.item.ItemSize;
 import ru.solomka.graphic.scene.item.SceneItem;
-import ru.solomka.graphic.scene.item.SizeProperties;
 import ru.solomka.graphic.scene.item.tag.Page;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BasePage extends BasePane implements Page {
+public class BasePage implements Page {
 
     private final List<SceneItem<?>> data;
+
     private int currentIndex;
 
-    public BasePage(int width, int height) {
-        super(width, height);
+    public BasePage() {
         this.currentIndex = 0;
         this.data = new ArrayList<>();
     }
@@ -47,18 +47,16 @@ public class BasePage extends BasePane implements Page {
         return !this.data.isEmpty() && this.currentIndex < this.data.size() - 1;
     }
 
-    @Override
-    public SizeProperties getSize() {
+    public ItemSize getPageContentSize() {
         if (this.data.isEmpty())
-            return new SizeProperties(0, 0);
+            return new ItemSize(0, 0);
 
         double width = this.data.stream().mapToDouble(component -> ((AnchorPane) component.getRoot()).getPrefWidth()).sum();
 
         double height = this.data.stream().mapToDouble(component -> ((AnchorPane) component.getRoot()).getPrefHeight()).max()
                 .orElseThrow(() -> new RuntimeException("Data of page cannot get a max height of element"));
 
-
-        return new SizeProperties(width, height);
+        return new ItemSize(width, height);
     }
 
     @Override

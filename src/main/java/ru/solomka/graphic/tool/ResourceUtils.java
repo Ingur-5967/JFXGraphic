@@ -7,10 +7,10 @@ import java.net.URL;
 
 public class ResourceUtils {
     public static InputStream getFileAsStream(String absolutePath) {
-        return JFXGraphic.getGraphicInstance().getClass().getClassLoader().getResourceAsStream(absolutePath);
+        return JFXGraphic.getInstance().getClass().getClassLoader().getResourceAsStream(absolutePath);
     }
 
     public static URL getFileAsResource(String absolutePath) {
-        return JFXGraphic.getGraphicInstance().getClass().getClassLoader().getResource(absolutePath);
+        return JFXGraphic.getInstance().getClass().getClassLoader().getResource(absolutePath);
     }
 }

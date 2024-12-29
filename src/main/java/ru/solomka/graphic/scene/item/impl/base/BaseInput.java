@@ -3,11 +3,11 @@ package ru.solomka.graphic.scene.item.impl.base;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import lombok.Getter;
 import ru.solomka.graphic.scene.item.BaseComponent;
+import ru.solomka.graphic.scene.item.ItemSize;
+import ru.solomka.graphic.scene.item.Location;
 import ru.solomka.graphic.scene.item.SceneItem;
-import ru.solomka.graphic.scene.item.SizeProperties;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.scene.item.tag.concept.ObjectFilter;
@@ -19,6 +19,7 @@ public class BaseInput implements BaseComponent<AnchorPane>, ObjectFilter<String
 
     private final AnchorPane container;
     private final TextField initialField;
+    private final Location location;
 
     @Getter
     private Predicate<String> criteria;
@@ -26,6 +27,7 @@ public class BaseInput implements BaseComponent<AnchorPane>, ObjectFilter<String
     public BaseInput() {
         this.container = new AnchorPane();
         this.initialField = new TextField();
+        this.location = new Location(0.0, 0.0);
         this.container.getChildren().add(initialField);
 
         this.criteria = _ -> true;
@@ -53,12 +55,13 @@ public class BaseInput implements BaseComponent<AnchorPane>, ObjectFilter<String
     public void setLocation(double x, double y) {
         this.container.setLayoutX(x);
         this.container.setLayoutY(y);
+        this.location.update(x, y);
     }
 
     @Override
-    public void setRootElement(SceneItem<? extends Pane> item, double x, double y) {
+    public void setRootElement(Container parent, double x, double y) {
         this.setLocation(x, y);
-        item.getRoot().getChildren().add(this.container);
+        parent.addChildren(this.container);
     }
 
     @Override
@@ -82,7 +85,12 @@ public class BaseInput implements BaseComponent<AnchorPane>, ObjectFilter<String
     }
 
     @Override
-    public SizeProperties getSize() {
-        return new SizeProperties(this.container.getPrefWidth(), this.container.getPrefHeight());
+    public Location getLocation() {
+        return this.location;
+    }
+
+    @Override
+    public ItemSize getSize() {
+        return new ItemSize(this.container.getPrefWidth(), this.container.getPrefHeight());
     }
 }

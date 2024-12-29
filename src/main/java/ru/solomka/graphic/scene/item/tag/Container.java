@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import ru.solomka.graphic.scene.item.LazyComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.base.BasePane;
+import ru.solomka.graphic.style.CssStyle;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
@@ -54,6 +55,10 @@ public interface Container {
 
     @SuppressWarnings("unchecked")
     static <I extends Container> Container fromSource(Class<I> instance, Parent region, Object[] properties) {
+
+        if (properties == null)
+            properties = new Object[]{((Pane) region).getPrefWidth(), ((Pane) region).getPrefHeight()};
+
         I loader;
         try {
             loader = (I) instance.getDeclaredConstructors()[0].newInstance(properties);
@@ -61,8 +66,12 @@ public interface Container {
             throw new RuntimeException(e);
         }
 
-        List<SceneItem<?>> items = region.getChildrenUnmodifiable().stream().filter(c -> c instanceof AnchorPane).map(SceneItem::fromSource).collect(Collectors.toList());
+        BasePane layout = (BasePane) loader;
+        layout.setLocation(region.getLayoutX(), region.getLayoutY());
+        layout.initStyle(CssStyle.create(region.getStyle()));
 
-        return items.isEmpty() ? loader : ((LazyComponent<? extends Container, ? extends Node>) loader).preInit(items.toArray(SceneItem<?>[]::new));
+        List<SceneItem<?>> items = layout.getChildren().stream().filter(c -> c instanceof AnchorPane).map(SceneItem::fromSource).collect(Collectors.toList());
+
+        return items.isEmpty() ? layout : ((LazyComponent<? extends Container, ? extends Node>) layout).preInit(items.toArray(SceneItem<?>[]::new));
     }
 }

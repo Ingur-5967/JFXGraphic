@@ -18,10 +18,8 @@ public class CssStyle {
 
     /**
      * Concatenate all strings into a single string to correctly pass the style for the object.
-     * <p>
-     * {@code new CssString(CssStyle.Properties.TEXT_FILL_COLOR.getProperty("red"))}
-     * </p>
      *
+     * @see Properties
      * @param styles Collection of CssStyle with Properties
      * @return A single line with styles specified
      */

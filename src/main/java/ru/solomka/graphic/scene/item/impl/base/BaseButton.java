@@ -8,8 +8,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import ru.solomka.graphic.scene.item.BaseComponent;
+import ru.solomka.graphic.scene.item.ItemSize;
+import ru.solomka.graphic.scene.item.Location;
 import ru.solomka.graphic.scene.item.SceneItem;
-import ru.solomka.graphic.scene.item.SizeProperties;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.scene.item.tag.Interact;
@@ -22,30 +23,19 @@ import java.util.function.Consumer;
 public abstract class BaseButton implements BaseComponent<AnchorPane>, ItemAnimation, Interact {
 
     private final AnchorPane container;
+
     private boolean animation;
+    private final Location location;
 
     public BaseButton(String content, int font) {
         this.container = new AnchorPane();
         this.animation = false;
+        this.location = new Location(0.0, 0.0);
 
         Button base = this.initBaseObject(content, font);
 
         if (!content.isEmpty() && font > 0)
             this.container.setPrefSize((int) (base.getFont().getSize() / 1.5 * base.getText().length() / 1.5), font + content.length() / 1.532);
-
-        this.container.getChildren().add(base);
-    }
-
-    public BaseButton(Image resource) {
-        this.container = new AnchorPane();
-        this.animation = false;
-
-        Button base = this.initBaseObject("", -1);
-
-        this.setGraphicContent(resource);
-
-//        if(!content.isEmpty() && font > 0)
-//            this.container.setPrefSize((int) (base.getFont().getSize() / 1.5 * base.getText().length() / 1.5), font + content.length() / 1.532);
 
         this.container.getChildren().add(base);
     }
@@ -89,12 +79,12 @@ public abstract class BaseButton implements BaseComponent<AnchorPane>, ItemAnima
     public void setLocation(double x, double y) {
         this.container.setLayoutX(x);
         this.container.setLayoutY(y);
+        this.location.update(x, y);
     }
 
     @Override
-    public void setLocation(Padding padding) {
-        this.container.setLayoutX(this.container.getLayoutX() + padding.getLeft() + padding.getRight());
-        this.container.setLayoutY(this.container.getLayoutY() + padding.getTop() + padding.getBottom());
+    public ItemSize getSize() {
+        return new ItemSize(this.container.getPrefWidth(), this.container.getPrefHeight());
     }
 
     @Override
@@ -108,8 +98,15 @@ public abstract class BaseButton implements BaseComponent<AnchorPane>, ItemAnima
     }
 
     @Override
-    public SizeProperties getSize() {
-        return new SizeProperties(this.container.getPrefWidth(), this.container.getPrefHeight());
+    public Location getLocation() {
+        return this.location;
+    }
+
+    @Override
+    public void setLocation(Padding padding) {
+        this.container.setLayoutX(this.container.getLayoutX() + padding.getLeft() + padding.getRight());
+        this.container.setLayoutY(this.container.getLayoutY() + padding.getTop() + padding.getBottom());
+        this.location.update(this.container.getLayoutX(), this.container.getLayoutY());
     }
 
     @Override
