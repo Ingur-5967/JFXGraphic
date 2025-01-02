@@ -7,13 +7,14 @@ The library provides a convenient set of tools for developing desktop applicatio
 ```java
 public class App extends JFXGraphic {
 
-   @Override
+    @Override
     public void onEnable(Stage stage) {
-        LinkedPane pane = new LinkedPane(450, 600)
+        LinkedPane pane = new LinkedPane(900, 600)
                 .initStyle(new CssStyle(CssStyle.Properties.BACKGROUND_COLOR.getProperty("white")));
 
         SceneEntry sceneEntry = new SceneEntry(pane);
         sceneEntry.setScene(sceneEntry.initScene(pane.getBaseRegion()));
+
         this.setSceneEntry(sceneEntry);
         stage.setScene(sceneEntry.getScene());
     }
@@ -30,38 +31,38 @@ public class App extends JFXGraphic {
 <h1>Templates</h1>
 
 ```java
-public class Template extends OrderlySceneTemplate {
+public class MainSceneTemplate extends InitialSceneTemplate {
 
-   public Template() {
-        super("order-template", new SecondTemplate());
+    public MainSceneTemplate() {
+        super("main", "main-template");
+    }
+
+    @Override
+    public void load(SceneEntry entry) {
+        SingleLabel label = new SingleLabel("Hello world", 10);
+
+        label.setRootElement(
+                entry.getMainLayout(),
+                100, 100
+        );
+    }
+}
+```
+```java
+public class ProfileSceneTemplate extends OrderlySceneTemplate {
+    public ProfileSceneTemplate() {
+        super("profile-scene", "profile", new MainSceneTemplate());
     }
 
     @Override
     public void load(SceneEntry entry) {
         super.loadTemplateParent(entry);
 
-        System.out.println("I'm loaded 2!");
+        SingleLabel label = new SingleLabel("Profile template", 12);
 
-        this.setLoaded(true);
-    }
-}
-```
-```java
-public class Template extends InitialSceneTemplate {
-
-    public Template() {
-        super("default-template");
-    }
-
-    @Override
-    public void load(SceneEntry entry) {
-        LinkedPane container = (LinkedPane) entry.getMainLayout();
-        SingleLabel singleLabel = new SingleLabel("Login", 25);
-        singleLabel.initStyle(singleLabel.getLineObject(0), new CssStyle(CssStyle.Properties.TEXT_FILL_COLOR.getProperty("blue")))
-
-        singleLabel.setRootElement(
-                container,
-                100, 100
+        label.setRootElement(
+                entry.getMainLayout(),
+                200, 200
         );
     }
 }
@@ -69,9 +70,8 @@ public class Template extends InitialSceneTemplate {
 <h2>Usage:</h2>
 
 ```java
-    @Override
-    public void onEnable(Stage stage) {
-        LinkedPane pane = new LinkedPane(450, 600)
+    public void testLoad() {
+        LinkedPane pane = new LinkedPane(900, 600)
                 .initStyle(new CssStyle(CssStyle.Properties.BACKGROUND_COLOR.getProperty("white")));
 
         SceneEntry sceneEntry = new SceneEntry(pane);
@@ -80,12 +80,16 @@ public class Template extends InitialSceneTemplate {
         this.setSceneEntry(sceneEntry);
 
         TemplateContainer container = getTemplateContainer();
-
-        container.add("order", new LinkedGroup(new TempOrderTwo(), new TempOrderOne()));
-        ((LinkedGroup) container.get("order")).getPreLoadedTemplates().forEach(template -> template.load(sceneEntry));
+        container.getOrDefault("profile", new LinkedGroup(new ProfileSceneTemplate())).loadTemplates(sceneEntry);
 
         stage.setScene(sceneEntry.getScene());
     }
+```
+<h2>Template:</h2>
+
+```java
+ TemplateContainer container = getTemplateContainer();
+ container.getOrDefault("profile", new LinkedGroup(new ProfileSceneTemplate())).loadTemplates(sceneEntry);
 ```
 ----
 <h1>Maven/Gradle</h1>
