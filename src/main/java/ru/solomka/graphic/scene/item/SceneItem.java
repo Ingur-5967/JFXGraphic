@@ -115,12 +115,6 @@ public interface SceneItem<T extends Node> {
      */
     Container getRoot();
 
-    default void setInnerLocation(SceneItem<?> item, double x, double y) {
-    }
-
-    default void setRootElement(Container parent, double x, double y) {
-    }
-
     /**
      * Returns size of root object
      *
