@@ -1,12 +1,11 @@
 package ru.solomka.graphic.scene.template.group;
 
+import ru.solomka.graphic.scene.SceneEntry;
 import ru.solomka.graphic.scene.template.Template;
 
-import java.util.List;
 import java.util.function.Predicate;
 
 public interface TemplateGroup {
-
     /**
      * Adds template to cache
      *
@@ -22,16 +21,16 @@ public interface TemplateGroup {
     void remove(String templateId);
 
     /**
+     * Load template from cache
+     *
+     * @param entry SceneEntry where the objects will be placed
+     */
+    void loadTemplates(SceneEntry entry);
+
+    /**
      * Returns template if template id identical
      *
      * @return Returns template if template id identical
      */
     Template getTemplateByFilter(Predicate<Template> filter);
-
-    /**
-     * Return templates
-     *
-     * @return Returns templates
-     */
-    List<? extends Template> getTemplates();
 }
