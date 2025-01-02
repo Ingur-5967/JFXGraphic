@@ -10,27 +10,24 @@ import ru.solomka.graphic.scene.item.Location;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.tag.Container;
-import ru.solomka.graphic.scene.item.tag.ItemAnimation;
+import ru.solomka.graphic.scene.item.tag.Root;
 import ru.solomka.graphic.scene.item.tag.enums.ItemAlignment;
 import ru.solomka.graphic.style.CssStyle;
 import ru.solomka.graphic.style.Padding;
 
-public class BaseImage implements BaseComponent<AnchorPane>, ItemAnimation {
+public class BaseImage implements BaseComponent<AnchorPane>, Root {
 
     private final AnchorPane container;
     private final ImageView viewer;
     @Getter
     private final ItemAlignment orientation;
 
-    private boolean animation;
     private final Location location;
 
     public BaseImage(Image source, ItemAlignment orientation) {
         this.container = new AnchorPane();
         this.orientation = orientation;
         this.location = new Location(0.0, 0.0);
-
-        this.animation = false;
 
         this.viewer = new ImageView(source);
     }
@@ -65,18 +62,8 @@ public class BaseImage implements BaseComponent<AnchorPane>, ItemAnimation {
     }
 
     @Override
-    public void setAnimationTag(boolean tag) {
-        this.animation = tag;
-    }
-
-    @Override
-    public boolean hasTag() {
-        return this.animation;
-    }
-
-    @Override
     public Container getRoot() {
-        return Container.fromSource(LinkedPane.class, this.container, new Object[]{this.container.getPrefWidth(), this.container.getPrefHeight()});
+        return Container.fromSource(LinkedPane.class, this.container, null);
     }
 
     @Override

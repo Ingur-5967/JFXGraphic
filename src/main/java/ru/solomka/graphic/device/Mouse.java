@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import ru.solomka.graphic.scene.item.Location;
 
 import java.awt.*;
 
@@ -27,10 +28,4 @@ public final class Mouse {
         this.location = new Location(x, y);
     }
 
-    @Data
-    @AllArgsConstructor
-    @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-    public static class Location {
-        double x, y;
-    }
 }

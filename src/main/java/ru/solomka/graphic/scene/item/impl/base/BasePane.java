@@ -7,12 +7,13 @@ import ru.solomka.graphic.scene.item.ItemSize;
 import ru.solomka.graphic.scene.item.Location;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.tag.Container;
+import ru.solomka.graphic.scene.item.tag.Root;
 import ru.solomka.graphic.style.CssStyle;
 import ru.solomka.graphic.style.Padding;
 
 import java.util.List;
 
-public class BasePane implements Container, SceneItem<AnchorPane> {
+public class BasePane implements Container, SceneItem<AnchorPane>, Root {
 
     private final AnchorPane container;
     private final Location location;

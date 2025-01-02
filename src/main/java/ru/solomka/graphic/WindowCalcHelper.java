@@ -4,8 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import lombok.NonNull;
+import ru.solomka.graphic.scene.item.ItemSize;
 import ru.solomka.graphic.scene.item.SceneItem;
-import ru.solomka.graphic.scene.item.SizeProperties;
 import ru.solomka.graphic.scene.item.tag.enums.ItemAlignment;
 
 public class WindowCalcHelper {
@@ -50,8 +50,22 @@ public class WindowCalcHelper {
      * @param node target node
      * @return Returns size node
      */
-    public static SizeProperties getSizeComponent(@NonNull Node node) {
-        return new SizeProperties(node.getBoundsInParent().getWidth(), node.getBoundsInParent().getHeight());
+    public static ItemSize getSizeComponent(@NonNull Node node) {
+        return new ItemSize(node.getBoundsInParent().getWidth(), node.getBoundsInParent().getHeight());
+    }
+
+    public static double getPositionBorderByElement(Node node, Node regular, ItemAlignment alignment) {
+        double distanceToPoint = Math.sqrt(Math.pow(regular.getLayoutX() - node.getLayoutX(), 2) + Math.pow(regular.getLayoutY() - node.getLayoutY(), 2));
+
+        switch (alignment) {
+            case TOP -> {
+                return Math.abs(distanceToPoint - node.getLayoutY());
+            }
+            case DOWN -> {
+                return (distanceToPoint - node.getLayoutY()) + ((AnchorPane) node).getPrefHeight() * 1.5;
+            }
+            default -> throw new IllegalArgumentException("Invalid alignment");
+        }
     }
 
     /**
@@ -62,7 +76,6 @@ public class WindowCalcHelper {
      * @param alignment orientation for result
      * @return Returns X or Y coordinate
      */
-
     public static double getPositionBorder(Pane pane, SceneItem<AnchorPane> regular, ItemAlignment alignment) {
         switch (alignment) {
             case LEFT, TOP -> {
@@ -77,9 +90,7 @@ public class WindowCalcHelper {
 
                 return pane.getPrefHeight() - regular.getRoot().getBaseRegion().getPrefHeight();
             }
-            default -> {
-                return -1;
-            }
+            default -> throw new IllegalArgumentException("Invalid alignment");
         }
     }
 
@@ -93,7 +104,6 @@ public class WindowCalcHelper {
      * @param alignment orientation for result
      * @return Returns X or Y coordinate
      */
-
     public static double getPositionBorder(Pane pane, ItemAlignment alignment) {
         return getPositionBorder(pane, null, alignment);
     }

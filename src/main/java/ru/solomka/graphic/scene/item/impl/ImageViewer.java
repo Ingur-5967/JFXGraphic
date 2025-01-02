@@ -6,7 +6,7 @@ import javafx.scene.layout.AnchorPane;
 import ru.solomka.graphic.scene.item.impl.base.BaseImage;
 import ru.solomka.graphic.scene.item.tag.enums.ItemAlignment;
 
-public class ImageViewer extends BaseImage {
+public final class ImageViewer extends BaseImage {
 
     public ImageViewer(int width, int height, ItemAlignment orientation, Image source) {
         super(source, orientation);

@@ -1,20 +1,17 @@
 package ru.solomka.graphic.style;
 
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
 
 import java.util.Arrays;
 
 @Data
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CssStyle {
 
-    String css;
+    private final String css;
 
     /**
      * Concatenate all strings into a single string to correctly pass the style for the object.

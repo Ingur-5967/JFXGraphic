@@ -56,8 +56,11 @@ public interface Container {
     @SuppressWarnings("unchecked")
     static <I extends Container> Container fromSource(Class<I> instance, Parent region, Object[] properties) {
 
+        if (!(region instanceof Pane root))
+            throw new IllegalArgumentException("Pane support only nodes which are inherited from Pane");
+
         if (properties == null)
-            properties = new Object[]{((Pane) region).getPrefWidth(), ((Pane) region).getPrefHeight()};
+            properties = new Object[]{root.getPrefWidth(), root.getPrefHeight()};
 
         I loader;
         try {
