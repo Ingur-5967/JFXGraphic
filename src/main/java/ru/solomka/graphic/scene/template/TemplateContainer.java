@@ -2,15 +2,15 @@ package ru.solomka.graphic.scene.template;
 
 import ru.solomka.graphic.scene.template.group.TemplateGroup;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.Optional;
 
 public class TemplateContainer {
 
-    private final Map<String, TemplateGroup> templates;
+    private final LinkedHashMap<String, TemplateGroup> templates;
 
     private TemplateContainer() {
-        this.templates = new HashMap<>();
+        this.templates = new LinkedHashMap<>();
     }
 
     public static TemplateContainer create() {
@@ -21,11 +21,11 @@ public class TemplateContainer {
         this.templates.put(id, group);
     }
 
-    public <G extends TemplateGroup> G get(String id) {
-        return (G) this.templates.get(id);
+    public <G extends TemplateGroup> G getOrDefault(String id, G initialGroup) {
+        return Optional.ofNullable((G) this.templates.get(id)).orElse(initialGroup);
     }
 
-    public <G extends TemplateGroup> G remove(String id) {
-        return (G) this.templates.remove(id);
+    public <G extends TemplateGroup> Optional<G> remove(String id) {
+        return Optional.ofNullable((G) this.templates.remove(id));
     }
 }
