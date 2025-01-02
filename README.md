@@ -27,6 +27,22 @@ public class App extends JFXGraphic {
     }
 }
 ```
+
+<h1>Simple event code:</h1>
+
+```java
+LinkedPane pane = (LinkedPane) JFXGraphic.getInstance().getSceneEntry().getMainLayout();
+
+pane.setup(MouseEvent.MOUSE_DRAGGED, event -> {
+	Circle circle = new Circle(12);
+	circle.setStyle("-fx-fill: red");
+
+	circle.setLayoutX(event.getX());
+	circle.setLayoutY(event.getY());
+
+	pane.addChildren(circle);
+});
+```
 ----
 <h1>Templates</h1>
 
