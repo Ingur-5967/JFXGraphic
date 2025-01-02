@@ -9,9 +9,9 @@ import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.scene.item.tag.Root;
 import ru.solomka.graphic.style.CssStyle;
-import ru.solomka.graphic.style.Padding;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BasePane implements Container, SceneItem<AnchorPane>, Root {
 
@@ -36,6 +36,11 @@ public class BasePane implements Container, SceneItem<AnchorPane>, Root {
     }
 
     @Override
+    public void addChildren(SceneItem<?> item) {
+        this.addChildren((Pane) item.getRoot().getBaseRegion());
+    }
+
+    @Override
     public <I extends SceneItem<AnchorPane>> I initStyle(CssStyle... properties) {
         this.container.setStyle(CssStyle.getCssString(properties));
         return (I) this;
@@ -54,6 +59,11 @@ public class BasePane implements Container, SceneItem<AnchorPane>, Root {
     }
 
     @Override
+    public void setSize(double width, double height) {
+        this.container.setPrefSize(width, height);
+    }
+
+    @Override
     public Container getRoot() {
         return this;
     }
@@ -64,15 +74,13 @@ public class BasePane implements Container, SceneItem<AnchorPane>, Root {
     }
 
     @Override
-    public void setLocation(Padding padding) {
-        this.container.setLayoutX(this.container.getLayoutX() + padding.getLeft() + padding.getRight());
-        this.container.setLayoutY(this.container.getLayoutY() + padding.getTop() + padding.getBottom());
-        this.location.update(this.container.getLayoutX(), this.container.getLayoutY());
+    public List<Node> getChildren() {
+        return this.container.getChildren();
     }
 
     @Override
-    public List<Node> getChildren() {
-        return this.container.getChildren();
+    public List<SceneItem<?>> getSource() {
+        return this.getChildren().stream().map(SceneItem::fromSource).collect(Collectors.toList());
     }
 
     @Override

@@ -1,24 +1,24 @@
 package ru.solomka.graphic.scene.item.impl;
 
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import ru.solomka.graphic.scene.item.LazyComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.base.BasePane;
 import ru.solomka.graphic.scene.item.tag.Container;
+import ru.solomka.graphic.scene.item.tag.Interact;
 import ru.solomka.graphic.scene.item.tag.Linked;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
-public final class LinkedPane extends BasePane implements LazyComponent<LinkedPane, AnchorPane>, Linked {
-
-    private final List<SceneItem<?>> source;
+public final class LinkedPane extends BasePane implements LazyComponent<LinkedPane, AnchorPane>, Linked, Interact {
 
     public LinkedPane(double width, double height) {
         super(width, height);
-        this.source = new ArrayList<>();
 
         if (this.getRoot() == null)
             throw new NullPointerException("Root region cannot be null");
@@ -45,8 +45,6 @@ public final class LinkedPane extends BasePane implements LazyComponent<LinkedPa
 
         AnchorPane parent = this.getRoot().getBaseRegion();
 
-        source.addAll(List.of(entries));
-
         parent.getChildren().addAll(
                 nodes.stream()
                         .map(SceneItem::getRoot)
@@ -59,30 +57,24 @@ public final class LinkedPane extends BasePane implements LazyComponent<LinkedPa
     }
 
     @Override
-    public void addChildren(SceneItem<?> item) {
-        this.source.add(item);
-        this.getRoot().getChildren().add(item.getRoot().getBaseRegion());
-    }
-
-    @Override
-    public List<SceneItem<?>> getSource() {
-        return this.source;
-    }
-
-    @Override
     public SceneItem<?> get(String id) {
-        return this.source.stream()
+        return this.getSource().stream()
                 .filter(node -> node.getRoot().getBaseRegion().getId() != null && node.getRoot().getBaseRegion().getId().equals(id))
                 .findAny().orElse(null);
     }
 
     @Override
     public SceneItem<?> get(int position) {
-        return this.source.get(position);
+        return this.getSource().get(position);
     }
 
     @Override
     public Container getRoot() {
         return super.getRoot();
+    }
+
+    @Override
+    public <E extends Event> void setup(EventType<E> eventType, Consumer<E> event) {
+        this.getBaseRegion().addEventHandler(eventType, event::accept);
     }
 }

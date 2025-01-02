@@ -1,6 +1,5 @@
 package ru.solomka.graphic.scene.item.impl.base;
 
-import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import ru.solomka.graphic.scene.item.BaseComponent;
@@ -9,17 +8,18 @@ import ru.solomka.graphic.scene.item.Location;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.tag.Container;
+import ru.solomka.graphic.scene.item.tag.Content;
 import ru.solomka.graphic.scene.item.tag.Root;
 import ru.solomka.graphic.style.CssStyle;
 
-public class BaseInput implements BaseComponent<AnchorPane>, Root {
+public class BaseInput implements BaseComponent<AnchorPane>, Root, Content {
 
-    private final AnchorPane container;
+    private final LinkedPane container;
     private final TextField initialField;
     private final Location location;
 
     public BaseInput() {
-        this.container = new AnchorPane();
+        this.container = new LinkedPane(0, 0);
         this.initialField = new TextField();
         this.location = new Location(0.0, 0.0);
         this.container.getChildren().add(initialField);
@@ -32,21 +32,8 @@ public class BaseInput implements BaseComponent<AnchorPane>, Root {
     }
 
     @Override
-    public <I extends SceneItem<AnchorPane>> I initStyle(SceneItem<?> item, CssStyle... properties) {
-        item.initStyle(properties);
-        return (I) this;
-    }
-
-    @Override
-    public <I extends SceneItem<AnchorPane>> I initStyle(Node node, CssStyle... properties) {
-        node.setStyle(CssStyle.getCssString(properties));
-        return (I) this;
-    }
-
-    @Override
     public void setLocation(double x, double y) {
-        this.container.setLayoutX(x);
-        this.container.setLayoutY(y);
+        this.container.setLocation(x, y);
         this.location.update(x, y);
     }
 
@@ -57,13 +44,8 @@ public class BaseInput implements BaseComponent<AnchorPane>, Root {
     }
 
     @Override
-    public Object getElementContent() {
-        return this.initialField;
-    }
-
-    @Override
     public Container getRoot() {
-        return Container.fromSource(LinkedPane.class, this.container, null);
+        return this.container;
     }
 
     @Override
@@ -73,6 +55,16 @@ public class BaseInput implements BaseComponent<AnchorPane>, Root {
 
     @Override
     public ItemSize getSize() {
-        return new ItemSize(this.container.getPrefWidth(), this.container.getPrefHeight());
+        return this.container.getSize();
+    }
+
+    @Override
+    public void setSize(double width, double height) {
+        this.container.setSize(width, height);
+    }
+
+    @Override
+    public <C> C getItemContent() {
+        return (C) this.initialField;
     }
 }

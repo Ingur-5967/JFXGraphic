@@ -10,14 +10,14 @@ import ru.solomka.graphic.scene.item.Location;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.tag.Container;
+import ru.solomka.graphic.scene.item.tag.Content;
 import ru.solomka.graphic.scene.item.tag.Root;
 import ru.solomka.graphic.scene.item.tag.enums.ItemAlignment;
 import ru.solomka.graphic.style.CssStyle;
-import ru.solomka.graphic.style.Padding;
 
-public class BaseImage implements BaseComponent<AnchorPane>, Root {
+public class BaseImage implements BaseComponent<AnchorPane>, Root, Content {
 
-    private final AnchorPane container;
+    private final LinkedPane container;
     private final ImageView viewer;
     @Getter
     private final ItemAlignment orientation;
@@ -25,7 +25,7 @@ public class BaseImage implements BaseComponent<AnchorPane>, Root {
     private final Location location;
 
     public BaseImage(Image source, ItemAlignment orientation) {
-        this.container = new AnchorPane();
+        this.container = new LinkedPane(0, 0);
         this.orientation = orientation;
         this.location = new Location(0.0, 0.0);
 
@@ -40,20 +40,24 @@ public class BaseImage implements BaseComponent<AnchorPane>, Root {
 
     @Override
     public <I extends SceneItem<AnchorPane>> I initStyle(CssStyle... properties) {
-        this.container.setStyle(CssStyle.getCssString(properties));
+        this.container.initStyle(properties);
         return (I) this;
     }
 
     @Override
     public void setLocation(double x, double y) {
-        this.container.setLayoutX(x);
-        this.container.setLayoutY(y);
+        this.container.setLocation(x, y);
         this.location.update(x, y);
     }
 
     @Override
     public ItemSize getSize() {
-        return new ItemSize(this.container.getPrefWidth(), this.container.getPrefHeight());
+        return this.container.getSize();
+    }
+
+    @Override
+    public void setSize(double width, double height) {
+        this.container.setSize(width, height);
     }
 
     @Override
@@ -63,18 +67,11 @@ public class BaseImage implements BaseComponent<AnchorPane>, Root {
 
     @Override
     public Container getRoot() {
-        return Container.fromSource(LinkedPane.class, this.container, null);
+        return this.container;
     }
 
     @Override
-    public void setLocation(Padding padding) {
-        this.container.setLayoutX(this.container.getLayoutX() + padding.getLeft() + padding.getRight());
-        this.container.setLayoutY(this.container.getLayoutY() + padding.getTop() + padding.getBottom());
-        this.location.update(this.container.getLayoutX(), this.container.getLayoutY());
-    }
-
-    @Override
-    public Object getElementContent() {
-        return this.viewer;
+    public <C> C getItemContent() {
+        return (C) this.viewer;
     }
 }

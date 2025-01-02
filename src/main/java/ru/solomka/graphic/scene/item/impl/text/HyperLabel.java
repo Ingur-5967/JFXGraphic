@@ -18,8 +18,7 @@ public class HyperLabel extends BaseText implements Interact {
     private final String url;
 
     public HyperLabel(String content, int font, String url) {
-        super(content, font, 1);
-        this.getRoot().getChildren().add(this.getLineObject(0));
+        super(content, font);
         this.url = url;
 
         this.setup(MouseEvent.MOUSE_CLICKED, _ -> {
@@ -34,6 +33,6 @@ public class HyperLabel extends BaseText implements Interact {
 
     @Override
     public <E extends Event> void setup(EventType<E> eventType, Consumer<E> event) {
-        this.getLineObject(0).addEventHandler(eventType, event::accept);
+        this.getRoot().getChildren().getFirst().addEventHandler(eventType, event::accept);
     }
 }

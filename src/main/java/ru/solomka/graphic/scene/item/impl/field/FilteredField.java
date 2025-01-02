@@ -3,7 +3,7 @@ package ru.solomka.graphic.scene.item.impl.field;
 import javafx.scene.control.TextField;
 import lombok.Getter;
 import ru.solomka.graphic.scene.item.impl.base.BaseInput;
-import ru.solomka.graphic.scene.item.tag.concept.ObjectFilter;
+import ru.solomka.graphic.scene.item.tag.filter.ObjectFilter;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -35,7 +35,7 @@ public final class FilteredField extends BaseInput implements ObjectFilter<Strin
      * @return Returns any value after validate by {@code Predicate<String>}
      */
     public Optional<String> getContentAfterCriteriaTest() {
-        TextField box = (TextField) this.getElementContent();
+        TextField box = this.getItemContent();
         return Optional.ofNullable(box).stream()
                 .map(TextField::getText)
                 .filter(this::validateWithPrincipe)
