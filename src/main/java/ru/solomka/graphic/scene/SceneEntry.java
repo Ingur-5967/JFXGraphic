@@ -119,10 +119,20 @@ public final class SceneEntry {
     }
 
     /**
-     * Delete all components from current stage
+     * Reset all items on scene
      */
-    public void clear() {
+    public void update() {
+        List<SceneItem<Node>> cleanedItems = this.clear();
+        cleanedItems.forEach(mainLayout::addChildren);
+    }
+
+    /**
+     * Delete all components from current stage and returns itself items
+     */
+    public List<SceneItem<Node>> clear() {
+        List<SceneItem<Node>> cache = this.getSceneContent();
         Pane root = (Pane) JFXGraphic.getPrimaryStage().getScene().getRoot();
         root.getChildren().clear();
+        return cache;
     }
 }
