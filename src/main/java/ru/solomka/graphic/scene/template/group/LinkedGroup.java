@@ -1,5 +1,6 @@
 package ru.solomka.graphic.scene.template.group;
 
+import ru.solomka.graphic.scene.SceneEntry;
 import ru.solomka.graphic.scene.template.ParentLink;
 import ru.solomka.graphic.scene.template.Template;
 import ru.solomka.graphic.scene.template.impl.OrderlySceneTemplate;
@@ -41,16 +42,16 @@ public class LinkedGroup implements TemplateGroup {
     }
 
     /**
-     * Return filtered list of {@link OrderlySceneTemplate} which are valid for uploading
-     *
-     * @return Return filtered list of {@link OrderlySceneTemplate} which are valid for uploading
+     * Load filtered list of {@link OrderlySceneTemplate} which are valid for uploading
      */
-    public List<OrderlySceneTemplate> getPreLoadedTemplates() {
-        return cache.stream().map(ParentLink::getParent)
+    public void loadTemplates(SceneEntry entry) {
+        List<OrderlySceneTemplate> templates = cache.stream().map(ParentLink::getParent)
                 .filter(template -> template instanceof OrderlySceneTemplate)
                 .map(template -> (OrderlySceneTemplate) template)
                 .filter(template -> !template.isLoaded() && template.getLoadBefore() != null)
                 .toList();
+
+        templates.forEach(template -> template.load(entry));
     }
 
     @Override
@@ -59,13 +60,6 @@ public class LinkedGroup implements TemplateGroup {
                 .filter(filter)
                 .findAny()
                 .orElse(null);
-    }
-
-    @Override
-    public List<? extends Template> getTemplates() {
-        return this.cache.stream()
-                .map(ParentLink::getParent)
-                .toList();
     }
 
     public List<ParentLink<? extends Template, ? extends Template>> getaTemplateCache() {
