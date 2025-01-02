@@ -1,10 +1,12 @@
 package ru.solomka.graphic.scene.template.impl;
 
 import lombok.Getter;
+import ru.solomka.graphic.JFXGraphic;
 import ru.solomka.graphic.scene.SceneEntry;
 import ru.solomka.graphic.scene.template.BaseTemplate;
 import ru.solomka.graphic.scene.template.Template;
 import ru.solomka.graphic.scene.template.TemplateParent;
+import ru.solomka.graphic.scene.template.group.LinkedGroup;
 
 public abstract class OrderlySceneTemplate extends BaseTemplate implements TemplateParent {
 
@@ -13,10 +15,15 @@ public abstract class OrderlySceneTemplate extends BaseTemplate implements Templ
 
     private boolean loaded = false;
 
-    public OrderlySceneTemplate(String id, Template loadBefore) {
+    public OrderlySceneTemplate(String id, String groupId, Template loadBefore) {
         super(id);
 
         this.loadBefore = loadBefore;
+
+        JFXGraphic.getTemplateContainer().add(
+                groupId,
+                JFXGraphic.getTemplateContainer().getOrDefault(groupId, new LinkedGroup(this))
+        );
     }
 
     @Override
