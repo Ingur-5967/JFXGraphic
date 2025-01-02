@@ -6,7 +6,6 @@ import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.impl.base.BaseButton;
 import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.style.CssStyle;
-import ru.solomka.graphic.style.Padding;
 
 public interface SceneItem<T extends Node> {
 
@@ -18,14 +17,6 @@ public interface SceneItem<T extends Node> {
      * @return SceneElement with accepted styles
      */
     <I extends SceneItem<T>> I initStyle(CssStyle... properties);
-
-    default <I extends SceneItem<T>> I initStyle(SceneItem<?> item, CssStyle... properties) {
-        return null;
-    }
-
-    default <I extends SceneItem<T>> I initStyle(Node node, CssStyle... properties) {
-        return null;
-    }
 
     /**
      * Sets new location on scene
@@ -67,12 +58,6 @@ public interface SceneItem<T extends Node> {
             }
 
             @Override
-            public void setLocation(Padding padding) {
-                source.setLayoutX(source.getLayoutX() + padding.getLeft() + padding.getRight());
-                source.setLayoutY(source.getLayoutY() + padding.getTop() + padding.getBottom());
-            }
-
-            @Override
             public Container getRoot() {
                 Pane region = source.getParent() == null ? (Pane) source : (Pane) source.getParent();
                 return Container.fromSource(LinkedPane.class, region, new Object[]{region.getPrefWidth(), region.getPrefHeight()});
@@ -82,15 +67,14 @@ public interface SceneItem<T extends Node> {
             public ItemSize getSize() {
                 return new ItemSize(source.getBoundsInParent().getWidth(), source.getBoundsInParent().getHeight());
             }
+
+            @Override
+            public void setSize(double width, double height) {
+                source.prefWidth(width);
+                source.prefHeight(height);
+            }
         };
     }
-
-    /**
-     * Changes the location by adding indents to the coordinates
-     *
-     * @param padding Indents on all sides
-     */
-    default void setLocation(Padding padding) {}
 
     /**
      * Returns current position element
@@ -98,15 +82,6 @@ public interface SceneItem<T extends Node> {
      * @return Returns current position element
      */
     Location getLocation();
-
-    /**
-     * Returns content of root element
-     *
-     * @return Returns content of root element
-     */
-    default Object getElementContent() {
-        return null;
-    }
 
     /**
      * Returns root element
@@ -121,4 +96,6 @@ public interface SceneItem<T extends Node> {
      * @return Returns size of root object
      */
     ItemSize getSize();
+
+    void setSize(double width, double height);
 }

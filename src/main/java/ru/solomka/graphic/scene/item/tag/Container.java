@@ -10,7 +10,6 @@ import ru.solomka.graphic.scene.item.impl.base.BasePane;
 import ru.solomka.graphic.style.CssStyle;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,8 +36,7 @@ public interface Container {
      * @param item Target item for add
      * @see BasePane
      */
-    default void addChildren(SceneItem<?> item) {
-    }
+    void addChildren(SceneItem<?> item);
 
     /**
      * Returns abstract content the container
@@ -47,9 +45,7 @@ public interface Container {
      * @see SceneItem
      * @see BasePane
      */
-    default List<SceneItem<?>> getSource() {
-        return Collections.emptyList();
-    }
+    List<SceneItem<?>> getSource();
 
     <P extends Pane> P getBaseRegion();
 
