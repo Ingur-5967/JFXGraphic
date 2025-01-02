@@ -66,9 +66,6 @@ public class ExtensibleLabel extends BaseText {
 
         root.addChildren(newLabel);
 
-        System.out.println(root.getSource());
-
-
         return true;
     }
 
