@@ -88,7 +88,7 @@ public class WindowCalcHelper {
                 if (regular == null)
                     throw new IllegalArgumentException("Regular node must not be null for calculate DOWN position");
 
-                return pane.getPrefHeight() - regular.getRoot().getBaseRegion().getPrefHeight();
+                return pane.getPrefHeight() - ((Pane) regular.getNode()).getPrefHeight();
             }
             default -> throw new IllegalArgumentException("Invalid alignment");
         }

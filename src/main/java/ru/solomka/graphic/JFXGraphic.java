@@ -12,7 +12,6 @@ import ru.solomka.graphic.scene.template.TemplateContainer;
 
 public abstract class JFXGraphic extends Application {
 
-    @Setter
     @Getter
     private static JFXGraphic instance;
 
@@ -50,7 +49,6 @@ public abstract class JFXGraphic extends Application {
         this.onDisable();
         instance = null;
     }
-
 
     public abstract void onEnable(Stage stage);
     public abstract void onDisable();

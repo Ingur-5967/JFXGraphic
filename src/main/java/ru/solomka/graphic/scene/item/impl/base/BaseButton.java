@@ -2,6 +2,7 @@ package ru.solomka.graphic.scene.item.impl.base;
 
 import javafx.event.Event;
 import javafx.event.EventType;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
@@ -11,14 +12,13 @@ import ru.solomka.graphic.scene.item.Location;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.tag.Container;
-import ru.solomka.graphic.scene.item.tag.Content;
 import ru.solomka.graphic.scene.item.tag.Interact;
 import ru.solomka.graphic.scene.item.tag.Root;
 import ru.solomka.graphic.style.CssStyle;
 
 import java.util.function.Consumer;
 
-public abstract class BaseButton implements BaseComponent<AnchorPane>, Interact, Root, Content {
+public abstract class BaseButton implements BaseComponent<AnchorPane>, Interact, Root {
 
     private final Button button;
     private final Location location;
@@ -75,8 +75,8 @@ public abstract class BaseButton implements BaseComponent<AnchorPane>, Interact,
     }
 
     @Override
-    public <C> C getItemContent() {
-        return (C) this.button;
+    public <N extends Node> N getNode() {
+        return (N) this.button;
     }
 
     private Button initBaseObject(String content, int font) {

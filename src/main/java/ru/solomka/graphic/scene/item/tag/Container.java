@@ -24,19 +24,21 @@ public interface Container {
     void addChildren(Node item);
 
     /**
-     * Returns non-abstract content the container
-     *
-     * @return Returns non-abstract content the container
-     */
-    List<Node> getChildren();
-
-    /**
      * Adds new child to abstract container
      *
      * @param item Target item for add
      * @see BasePane
      */
     void addChildren(SceneItem<?> item);
+
+    void removeChildren(Node item);
+
+    /**
+     * Returns non-abstract content the container
+     *
+     * @return Returns non-abstract content the container
+     */
+    List<Node> getChildren();
 
     /**
      * Returns abstract content the container
@@ -47,7 +49,6 @@ public interface Container {
      */
     List<SceneItem<?>> getSource();
 
-    <P extends Pane> P getBaseRegion();
 
     @SuppressWarnings("unchecked")
     static <I extends Container> Container fromSource(Class<I> instance, Parent region, Object[] properties) {

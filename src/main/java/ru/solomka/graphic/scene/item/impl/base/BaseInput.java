@@ -1,5 +1,6 @@
 package ru.solomka.graphic.scene.item.impl.base;
 
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import ru.solomka.graphic.scene.item.BaseComponent;
@@ -8,11 +9,10 @@ import ru.solomka.graphic.scene.item.Location;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.tag.Container;
-import ru.solomka.graphic.scene.item.tag.Content;
 import ru.solomka.graphic.scene.item.tag.Root;
 import ru.solomka.graphic.style.CssStyle;
 
-public class BaseInput implements BaseComponent<AnchorPane>, Root, Content {
+public class BaseInput implements BaseComponent<AnchorPane>, Root {
 
     private final LinkedPane container;
     private final TextField initialField;
@@ -64,7 +64,7 @@ public class BaseInput implements BaseComponent<AnchorPane>, Root, Content {
     }
 
     @Override
-    public <C> C getItemContent() {
-        return (C) this.initialField;
+    public <N extends Node> N getNode() {
+        return (N) this.initialField;
     }
 }

@@ -35,7 +35,7 @@ public final class FilteredField extends BaseInput implements ObjectFilter<Strin
      * @return Returns any value after validate by {@code Predicate<String>}
      */
     public Optional<String> getContentAfterCriteriaTest() {
-        TextField box = this.getItemContent();
+        TextField box = this.getNode();
         return Optional.ofNullable(box).stream()
                 .map(TextField::getText)
                 .filter(this::validateWithPrincipe)

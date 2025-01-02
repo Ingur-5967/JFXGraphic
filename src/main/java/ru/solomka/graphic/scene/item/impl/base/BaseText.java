@@ -1,5 +1,6 @@
 package ru.solomka.graphic.scene.item.impl.base;
 
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
@@ -85,5 +86,10 @@ public class BaseText implements BaseComponent<AnchorPane>, Root {
     @Override
     public Container getRoot() {
         return this.container;
+    }
+
+    @Override
+    public <N extends Node> N getNode() {
+        return (N) this.initialLabel;
     }
 }

@@ -1,5 +1,6 @@
 package ru.solomka.graphic.scene.item.impl.base;
 
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -10,12 +11,11 @@ import ru.solomka.graphic.scene.item.Location;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.tag.Container;
-import ru.solomka.graphic.scene.item.tag.Content;
 import ru.solomka.graphic.scene.item.tag.Root;
 import ru.solomka.graphic.scene.item.tag.enums.ItemAlignment;
 import ru.solomka.graphic.style.CssStyle;
 
-public class BaseImage implements BaseComponent<AnchorPane>, Root, Content {
+public class BaseImage implements BaseComponent<AnchorPane>, Root {
 
     private final LinkedPane container;
     private final ImageView viewer;
@@ -71,7 +71,7 @@ public class BaseImage implements BaseComponent<AnchorPane>, Root, Content {
     }
 
     @Override
-    public <C> C getItemContent() {
-        return (C) this.viewer;
+    public <N extends Node> N getNode() {
+        return (N) this.viewer;
     }
 }

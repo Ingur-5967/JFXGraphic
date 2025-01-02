@@ -132,7 +132,8 @@ public final class SceneEntry {
     public List<SceneItem<Node>> clear() {
         List<SceneItem<Node>> cache = this.getSceneContent();
         Pane root = (Pane) JFXGraphic.getPrimaryStage().getScene().getRoot();
-        root.getChildren().clear();
+
+        root.getChildren().removeIf(item -> item != ((BasePane) mainLayout).getNode());
         return cache;
     }
 }

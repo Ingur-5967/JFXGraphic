@@ -1,6 +1,7 @@
 package ru.solomka.graphic.scene.item;
 
 import javafx.scene.Node;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.layout.Pane;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.impl.base.BaseButton;
@@ -53,14 +54,22 @@ public interface SceneItem<T extends Node> {
             }
 
             @Override
+            public Node getNode() {
+                return source;
+            }
+
+            @Override
             public Location getLocation() {
                 return new Location(source.getLayoutX(), source.getLayoutY());
             }
 
             @Override
             public Container getRoot() {
+                if (source instanceof ButtonBase)
+                    return new LinkedPane(((ButtonBase) source).getPrefWidth(), ((ButtonBase) source).getPrefHeight());
+
                 Pane region = source.getParent() == null ? (Pane) source : (Pane) source.getParent();
-                return Container.fromSource(LinkedPane.class, region, new Object[]{region.getPrefWidth(), region.getPrefHeight()});
+                return Container.fromSource(LinkedPane.class, region, null);
             }
 
             @Override
@@ -75,6 +84,13 @@ public interface SceneItem<T extends Node> {
             }
         };
     }
+
+    /**
+     * Returns base element of root
+     *
+     * @return Returns base element of root
+     */
+    <N extends Node> N getNode();
 
     /**
      * Returns current position element

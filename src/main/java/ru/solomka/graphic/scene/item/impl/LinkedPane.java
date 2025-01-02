@@ -4,6 +4,7 @@ import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import ru.solomka.graphic.scene.item.LazyComponent;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.base.BasePane;
@@ -33,7 +34,9 @@ public final class LinkedPane extends BasePane implements LazyComponent<LinkedPa
         if (element.getSize().getWidth() <= 0 || element.getSize().getHeight() <= 0)
             throw new IllegalArgumentException("Size cannot be zero or negative.");
 
-        this.getRoot().getBaseRegion().setPrefSize(element.getSize().getWidth(), element.getSize().getHeight());
+        Pane pane = this.getNode();
+
+        pane.setPrefSize(element.getSize().getWidth(), element.getSize().getHeight());
     }
 
     @Override
@@ -43,7 +46,7 @@ public final class LinkedPane extends BasePane implements LazyComponent<LinkedPa
                 .map(Container::getChildren)
                 .toArray(SceneItem<?>[]::new)).toList();
 
-        AnchorPane parent = this.getRoot().getBaseRegion();
+        AnchorPane parent = this.getNode();
 
         parent.getChildren().addAll(
                 nodes.stream()
@@ -59,7 +62,7 @@ public final class LinkedPane extends BasePane implements LazyComponent<LinkedPa
     @Override
     public SceneItem<?> get(String id) {
         return this.getSource().stream()
-                .filter(node -> node.getRoot().getBaseRegion().getId() != null && node.getRoot().getBaseRegion().getId().equals(id))
+                .filter(item -> item.getNode().getId() != null && item.getNode().getId().equals(id))
                 .findAny().orElse(null);
     }
 
@@ -75,6 +78,6 @@ public final class LinkedPane extends BasePane implements LazyComponent<LinkedPa
 
     @Override
     public <E extends Event> void setup(EventType<E> eventType, Consumer<E> event) {
-        this.getBaseRegion().addEventHandler(eventType, event::accept);
+        this.getNode().addEventHandler(eventType, event::accept);
     }
 }

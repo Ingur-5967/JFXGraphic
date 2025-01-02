@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.solomka.graphic.JFXGraphic;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
+import ru.solomka.graphic.scene.item.impl.base.BasePane;
 import ru.solomka.graphic.scene.item.impl.base.BaseText;
 import ru.solomka.graphic.style.CssStyle;
 
@@ -92,8 +93,9 @@ public class ExtensibleLabel extends BaseText {
      */
     public void clearAll() {
         this.textData.forEach(component -> {
-            Pane root = JFXGraphic.getInstance().getSceneEntry().getMainLayout().getBaseRegion();
-            root.getChildren().remove(component);
+            BasePane root = (BasePane) JFXGraphic.getInstance().getSceneEntry().getMainLayout();
+            Pane container = root.getNode();
+            container.getChildren().remove(component);
         });
 
         this.textData.clear();

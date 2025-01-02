@@ -2,7 +2,6 @@ package ru.solomka.graphic.scene.item.impl.base;
 
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import ru.solomka.graphic.scene.item.ItemSize;
 import ru.solomka.graphic.scene.item.Location;
 import ru.solomka.graphic.scene.item.SceneItem;
@@ -10,6 +9,7 @@ import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.scene.item.tag.Root;
 import ru.solomka.graphic.style.CssStyle;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +37,12 @@ public class BasePane implements Container, SceneItem<AnchorPane>, Root {
 
     @Override
     public void addChildren(SceneItem<?> item) {
-        this.addChildren((Pane) item.getRoot().getBaseRegion());
+        this.addChildren((Node) item.getNode());
+    }
+
+    @Override
+    public void removeChildren(Node item) {
+        this.container.getChildren().remove(item);
     }
 
     @Override
@@ -75,7 +80,7 @@ public class BasePane implements Container, SceneItem<AnchorPane>, Root {
 
     @Override
     public List<Node> getChildren() {
-        return this.container.getChildren();
+        return new ArrayList<>(this.container.getChildren());
     }
 
     @Override
@@ -84,7 +89,7 @@ public class BasePane implements Container, SceneItem<AnchorPane>, Root {
     }
 
     @Override
-    public <P extends Pane> P getBaseRegion() {
-        return (P) this.container;
+    public <N extends Node> N getNode() {
+        return (N) this.container;
     }
 }
