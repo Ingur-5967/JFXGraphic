@@ -13,10 +13,9 @@ public class App extends JFXGraphic {
                 .initStyle(new CssStyle(CssStyle.Properties.BACKGROUND_COLOR.getProperty("white")));
 
         SceneEntry sceneEntry = new SceneEntry(pane);
-        sceneEntry.setScene(sceneEntry.initScene(pane.getBaseRegion()));
+        sceneEntry.initScene(pane.getNode());
 
         this.setSceneEntry(sceneEntry);
-        stage.setScene(sceneEntry.getScene());
     }
 
     @Override
@@ -91,14 +90,12 @@ public class ProfileSceneTemplate extends OrderlySceneTemplate {
                 .initStyle(new CssStyle(CssStyle.Properties.BACKGROUND_COLOR.getProperty("white")));
 
         SceneEntry sceneEntry = new SceneEntry(pane);
-        sceneEntry.setScene(sceneEntry.initScene(pane.getBaseRegion()));
+        sceneEntry.initScene(pane.getNode());
 
         this.setSceneEntry(sceneEntry);
 
         TemplateContainer container = getTemplateContainer();
         container.getOrDefault("profile", new LinkedGroup(new ProfileSceneTemplate())).loadTemplates(sceneEntry);
-
-        stage.setScene(sceneEntry.getScene());
     }
 ```
 <h2>Template:</h2>
