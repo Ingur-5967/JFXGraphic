@@ -3,21 +3,11 @@ package ru.solomka.graphic.scene.item;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
-import ru.solomka.graphic.scene.item.impl.base.BaseButton;
 import ru.solomka.graphic.scene.item.tag.Container;
-import ru.solomka.graphic.style.CssStyle;
 
-public interface SceneItem<T extends Node> {
-
-    /**
-     * Sets element styles
-     *
-     * @param properties Styles for element (See {@link CssStyle})
-     * @param <I> Child of SceneElement (See: {@link BaseButton})
-     * @return SceneElement with accepted styles
-     */
-    <I extends SceneItem<T>> I initStyle(CssStyle... properties);
+public interface SceneItem {
 
     /**
      * Sets new location on scene
@@ -28,25 +18,8 @@ public interface SceneItem<T extends Node> {
     void setLocation(double x, double y);
 
     @SuppressWarnings("unchecked")
-    static <N extends Node> SceneItem<N> fromSource(N source) {
-        return new SceneItem<>() {
-            @Override
-            public <I extends SceneItem<N>> I initStyle(CssStyle... properties) {
-                Class<I> clazz = (Class<I>) source.getClass();
-
-                Object instance;
-
-                try {
-                    instance = clazz.newInstance();
-                } catch (InstantiationException | IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
-
-                source.setStyle(CssStyle.getCssString(properties));
-
-                return (I) instance;
-            }
-
+    static <N extends Node> SceneItem fromSource(N source) {
+        return new SceneItem() {
             @Override
             public void setLocation(double x, double y) {
                 source.setLayoutX(x);
@@ -74,7 +47,8 @@ public interface SceneItem<T extends Node> {
 
             @Override
             public ItemSize getSize() {
-                return new ItemSize(source.getBoundsInParent().getWidth(), source.getBoundsInParent().getHeight());
+                Region region = (Region) source;
+                return new ItemSize(region.getPrefWidth(), region.getPrefHeight());
             }
 
             @Override

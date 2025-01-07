@@ -1,6 +1,5 @@
 package ru.solomka.graphic.scene.item.tag;
 
-import javafx.scene.Node;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.base.BasePage;
 
@@ -13,14 +12,14 @@ public interface Page {
      *
      * @return Returns current content the container
      */
-    List<SceneItem<?>> getData();
+    List<SceneItem> getData();
 
     /**
      * Sets new elements to the container
      *
      * @param items Target elements to change
      */
-    void setData(SceneItem<?>... items);
+    void setData(SceneItem... items);
 
     /**
      * Returns current element by index
@@ -30,7 +29,7 @@ public interface Page {
      * @see SceneItem
      * @see BasePage
      */
-    <T extends SceneItem<? extends Node>> T current();
+    <T extends SceneItem> T current();
 
     /**
      * Returns current element by index
@@ -40,7 +39,7 @@ public interface Page {
      * @see SceneItem
      * @see BasePage
      */
-    <T extends SceneItem<? extends Node>> T next();
+    <T extends SceneItem> T next();
 
     /**
      * Returns current element by index
@@ -50,7 +49,7 @@ public interface Page {
      * @see SceneItem
      * @see BasePage
      */
-    <T extends SceneItem<? extends Node>> T previous();
+    <T extends SceneItem> T previous();
 
     /**
      * Returns the result of checking for the presence of the next element in the list by index

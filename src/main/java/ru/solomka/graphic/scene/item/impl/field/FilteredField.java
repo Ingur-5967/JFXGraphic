@@ -2,6 +2,7 @@ package ru.solomka.graphic.scene.item.impl.field;
 
 import javafx.scene.control.TextField;
 import lombok.Getter;
+import ru.solomka.graphic.scene.item.ItemSize;
 import ru.solomka.graphic.scene.item.impl.base.BaseInput;
 import ru.solomka.graphic.scene.item.tag.filter.ObjectFilter;
 
@@ -11,20 +12,12 @@ import java.util.function.Predicate;
 @Getter
 public final class FilteredField extends BaseInput implements ObjectFilter<String> {
 
+
     private Predicate<String> criteria;
 
-    public FilteredField() {
+    public FilteredField(ItemSize size) {
+        super(size);
         this.criteria = _ -> true;
-    }
-
-    @Override
-    public boolean validateWithPrincipe(String object) {
-        return criteria.test(object);
-    }
-
-    @Override
-    public void setFilterPrincipe(Predicate<String> criteria) {
-        this.criteria = criteria;
     }
 
     /**
@@ -40,5 +33,16 @@ public final class FilteredField extends BaseInput implements ObjectFilter<Strin
                 .map(TextField::getText)
                 .filter(this::validateWithPrincipe)
                 .findFirst();
+    }
+
+
+    @Override
+    public boolean validateWithPrincipe(String object) {
+        return criteria.test(object);
+    }
+
+    @Override
+    public void setFilterPrincipe(Predicate<String> criteria) {
+        this.criteria = criteria;
     }
 }

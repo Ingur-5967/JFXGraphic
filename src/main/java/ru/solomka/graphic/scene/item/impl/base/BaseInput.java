@@ -1,70 +1,27 @@
 package ru.solomka.graphic.scene.item.impl.base;
 
-import javafx.scene.Node;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import ru.solomka.graphic.scene.item.BaseComponent;
+import javafx.scene.control.TextInputControl;
 import ru.solomka.graphic.scene.item.ItemSize;
-import ru.solomka.graphic.scene.item.Location;
-import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.LinkedPane;
 import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.scene.item.tag.Root;
-import ru.solomka.graphic.style.CssStyle;
 
-public class BaseInput implements BaseComponent<AnchorPane>, Root {
+public class BaseInput extends BaseItem<TextInputControl> implements Root {
 
-    private final LinkedPane container;
-    private final TextField initialField;
-    private final Location location;
+    public BaseInput(ItemSize size) {
+        super(() -> {
+            TextField field = new TextField();
+            field.setPrefSize(size.getWidth(), size.getHeight());
+            return field;
+        }, () -> new LinkedPane(size.getWidth(), size.getHeight()));
 
-    public BaseInput() {
-        this.container = new LinkedPane(0, 0);
-        this.initialField = new TextField();
-        this.location = new Location(0.0, 0.0);
-        this.container.getChildren().add(initialField);
-    }
-
-    @Override
-    public <I extends SceneItem<AnchorPane>> I initStyle(CssStyle... properties) {
-        this.initialField.setStyle(CssStyle.getCssString(properties));
-        return (I) this;
-    }
-
-    @Override
-    public void setLocation(double x, double y) {
-        this.container.setLocation(x, y);
-        this.location.update(x, y);
+        this.setSize(size.getWidth(), size.getHeight());
     }
 
     @Override
     public void setRootElement(Container parent, double x, double y) {
+        parent.addChildren((BasePane) this.getRoot());
         this.setLocation(x, y);
-        parent.addChildren(this.container);
-    }
-
-    @Override
-    public Container getRoot() {
-        return this.container;
-    }
-
-    @Override
-    public Location getLocation() {
-        return this.location;
-    }
-
-    @Override
-    public ItemSize getSize() {
-        return this.container.getSize();
-    }
-
-    @Override
-    public void setSize(double width, double height) {
-        this.container.setSize(width, height);
-    }
-
-    @Override
-    public <N extends Node> N getNode() {
-        return (N) this.initialField;
     }
 }

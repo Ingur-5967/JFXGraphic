@@ -10,7 +10,7 @@ public interface Linked {
      * @param id string id the target node
      * @return Returns SceneItem that has the same string id
      */
-    SceneItem<?> get(String id);
+    SceneItem get(String id);
 
     /**
      * Returns the {@code SceneItem} that is at the specified position
@@ -18,5 +18,5 @@ public interface Linked {
      * @param position string id the target node
      * @return Returns the SceneItem that is at the specified position
      */
-    SceneItem<?> get(int position);
+    SceneItem get(int position);
 }

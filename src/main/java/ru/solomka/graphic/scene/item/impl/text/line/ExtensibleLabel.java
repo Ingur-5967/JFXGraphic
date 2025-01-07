@@ -7,7 +7,7 @@ import javafx.scene.text.Font;
 import lombok.Getter;
 import lombok.Setter;
 import ru.solomka.graphic.JFXGraphic;
-import ru.solomka.graphic.scene.item.impl.LinkedPane;
+import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.impl.base.BasePane;
 import ru.solomka.graphic.scene.item.impl.base.BaseText;
 import ru.solomka.graphic.style.CssStyle;
@@ -29,7 +29,7 @@ public class ExtensibleLabel extends BaseText {
         this.textData = new ArrayList<>();
         this.maxLines = maxLines;
 
-        this.textData.add((Label) this.getRoot().getChildren().getFirst());
+        this.textData.add(this.getNode());
     }
 
     /**
@@ -38,36 +38,37 @@ public class ExtensibleLabel extends BaseText {
      * @param content Any valid text for object {@code Label}
      * @param font    Text size ({@link Font})
      * @param padding Spacing between the previous line
-     * @param styles  Style for text
+     * @param properties  Style for text
      * @return Result/Success of adding a new line
      * @throws IllegalArgumentException {@code padding} < 0 or {@code font} <= 0
      * @see Label
      */
-    public boolean addLine(String content, int font, int padding, CssStyle... styles) {
+    public boolean addLine(String content, int font, int padding, CssStyle... properties) {
 
-        LinkedPane root = (LinkedPane) this.getRoot();
+        BasePane root = (BasePane) this.getRoot();
 
-        if (padding < 0 || font <= 0)
+        if (padding < 0)
             throw new IllegalArgumentException("Padding must be greater than 0");
+
+        if (font <= 0)
+            throw new IllegalArgumentException("Font size must be greater than 0");
 
         if (this.maxLines < this.textData.size())
             return false;
 
         Label coordinator = this.textData.getLast();
+
         Label newLabel = new Label(content);
 
         newLabel.setFont(Font.font(font));
-        newLabel.setStyle((CssStyle.getCssString(styles).isEmpty() ? "" : CssStyle.getCssString(styles)));
+        newLabel.setStyle((CssStyle.getCssString(properties).isEmpty() ? "" : CssStyle.getCssString(properties)));
         newLabel.setLayoutX(coordinator.getLayoutX());
         newLabel.setLayoutY((coordinator.getLayoutY() + coordinator.getFont().getSize() / 1.5) + padding);
 
-        this.textData.add(newLabel);
+        root.addChildren(newLabel);
         root.setSize(root.getSize().getWidth(), root.getSize().getHeight() + (padding + newLabel.getFont().getSize()) / 2);
 
-        root.addChildren(newLabel);
-
-        System.out.println(root.getSource());
-
+        this.textData.add(newLabel);
 
         return true;
     }
@@ -122,5 +123,11 @@ public class ExtensibleLabel extends BaseText {
 
     public void setDataSize(int newSize) {
         this.maxLines = newSize;
+    }
+
+    @Override
+    public <I extends SceneItem> I initStyle(CssStyle... properties) {
+        this.textData.forEach(item -> item.setStyle(CssStyle.getCssString(properties)));
+        return (I) this;
     }
 }

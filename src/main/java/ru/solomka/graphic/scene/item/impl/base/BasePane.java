@@ -2,94 +2,70 @@ package ru.solomka.graphic.scene.item.impl.base;
 
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
-import ru.solomka.graphic.scene.item.ItemSize;
-import ru.solomka.graphic.scene.item.Location;
 import ru.solomka.graphic.scene.item.SceneItem;
 import ru.solomka.graphic.scene.item.tag.Container;
 import ru.solomka.graphic.scene.item.tag.Root;
-import ru.solomka.graphic.style.CssStyle;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BasePane implements Container, SceneItem<AnchorPane>, Root {
+public class BasePane extends BaseItem<AnchorPane> implements Container, Root {
 
-    private final AnchorPane container;
-    private final Location location;
+    private final AnchorPane parent;
 
     public BasePane(double width, double height) {
-        this.container = new AnchorPane();
-        this.location = new Location(0.0, 0.0);
-        this.container.setPrefSize(width, height);
+        super(() -> {
+            AnchorPane initial = new AnchorPane();
+            initial.setPrefSize(width, height);
+            return initial;
+        });
+
+        this.parent = this.getNode();
+    }
+
+    /**
+     * Resize root element by the specified element
+     *
+     * @param element target element for which there will be a resizing
+     */
+    public void setAdaptiveSize(SceneItem element) {
+        if (element.getSize().getWidth() <= 0 || element.getSize().getHeight() <= 0)
+            throw new IllegalArgumentException("Size cannot be zero or negative.");
+
+        AnchorPane pane = this.getNode();
+
+        pane.setPrefSize(element.getSize().getWidth(), element.getSize().getHeight());
     }
 
     @Override
     public void setRootElement(Container parent, double x, double y) {
+        parent.addChildren(this);
         this.setLocation(x, y);
-        parent.addChildren(this.container);
     }
 
     @Override
     public void addChildren(Node item) {
-        this.container.getChildren().add(item);
+        this.parent.getChildren().add(item);
     }
 
     @Override
-    public void addChildren(SceneItem<?> item) {
+    public void addChildren(SceneItem item) {
         this.addChildren((Node) item.getNode());
     }
 
     @Override
     public void removeChildren(Node item) {
-        this.container.getChildren().remove(item);
-    }
-
-    @Override
-    public <I extends SceneItem<AnchorPane>> I initStyle(CssStyle... properties) {
-        this.container.setStyle(CssStyle.getCssString(properties));
-        return (I) this;
-    }
-
-    @Override
-    public void setLocation(double x, double y) {
-        this.container.setLayoutX(x);
-        this.container.setLayoutY(y);
-        this.location.update(x, y);
-    }
-
-    @Override
-    public ItemSize getSize() {
-        return new ItemSize(this.container.getPrefWidth(), this.container.getPrefHeight());
-    }
-
-    @Override
-    public void setSize(double width, double height) {
-        this.container.setPrefSize(width, height);
-    }
-
-    @Override
-    public Container getRoot() {
-        return this;
-    }
-
-    @Override
-    public Location getLocation() {
-        return this.location;
+        this.parent.getChildren().remove(item);
     }
 
     @Override
     public List<Node> getChildren() {
-        return new ArrayList<>(this.container.getChildren());
+        return new ArrayList<>(this.parent.getChildren());
     }
 
     @Override
-    public List<SceneItem<?>> getSource() {
+    public List<SceneItem> getSource() {
         return this.getChildren().stream().map(SceneItem::fromSource).collect(Collectors.toList());
-    }
-
-    @Override
-    public <N extends Node> N getNode() {
-        return (N) this.container;
     }
 }

@@ -1,6 +1,5 @@
 package ru.solomka.graphic.scene.item.impl.base;
 
-import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import ru.solomka.graphic.scene.item.ItemSize;
 import ru.solomka.graphic.scene.item.SceneItem;
@@ -12,7 +11,7 @@ import java.util.List;
 
 public class BasePage implements Page {
 
-    private final List<SceneItem<?>> data;
+    private final List<SceneItem> data;
 
     private int currentIndex;
 
@@ -22,7 +21,7 @@ public class BasePage implements Page {
     }
 
     @Override
-    public <T extends SceneItem<? extends Node>> T next() {
+    public <T extends SceneItem> T next() {
         if (!this.hasNext())
             return current();
 
@@ -30,7 +29,7 @@ public class BasePage implements Page {
     }
 
     @Override
-    public <T extends SceneItem<? extends Node>> T previous() {
+    public <T extends SceneItem> T previous() {
         if (this.currentIndex == 0)
             return current();
 
@@ -38,7 +37,7 @@ public class BasePage implements Page {
     }
 
     @Override
-    public <T extends SceneItem<? extends Node>> T current() {
+    public <T extends SceneItem> T current() {
         return (T) this.data.get(this.currentIndex);
     }
 
@@ -65,12 +64,12 @@ public class BasePage implements Page {
     }
 
     @Override
-    public List<SceneItem<?>> getData() {
+    public List<SceneItem> getData() {
         return this.data;
     }
 
     @Override
-    public void setData(SceneItem<?>... items) {
+    public void setData(SceneItem... items) {
         this.data.addAll(Arrays.stream(items).toList());
     }
 
