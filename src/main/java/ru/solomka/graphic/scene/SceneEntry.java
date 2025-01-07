@@ -1,7 +1,6 @@
 package ru.solomka.graphic.scene;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -41,7 +40,7 @@ public final class SceneEntry {
     }
 
     public SceneEntry(Container parent) {
-        this(parent, ((SceneItem<?>) parent).getSize());
+        this(parent, ((SceneItem) parent).getSize());
     }
 
     public static Scene getTransparentWindow(Stage stage, Scene scene) {
@@ -87,7 +86,7 @@ public final class SceneEntry {
      * @param filter Element filtering condition
      * @return Returns element that has passed the filter
      */
-    public Optional<SceneItem<?>> findElement(Container container, Predicate<SceneItem<?>> filter) {
+    public Optional<SceneItem> findElement(Container container, Predicate<SceneItem> filter) {
         return container.getSource().stream().filter(filter).findAny();
     }
 
@@ -97,7 +96,7 @@ public final class SceneEntry {
      * @return Returns mapped all nodes on scene to {@code SceneItem<Node>}
      * @throws IllegalStateException If scene is not initialized from {@link SceneEntry#getScene}
      */
-    public List<SceneItem<Node>> getSceneContent() {
+    public List<SceneItem> getSceneContent() {
         Pane root = (Pane) this.getScene().getRoot();
         return root.getChildren()
                 .stream()
@@ -122,15 +121,15 @@ public final class SceneEntry {
      * Reset all items on scene
      */
     public void update() {
-        List<SceneItem<Node>> cleanedItems = this.clear();
+        List<SceneItem> cleanedItems = this.clear();
         cleanedItems.forEach(mainLayout::addChildren);
     }
 
     /**
      * Delete all components from current stage and returns itself items
      */
-    public List<SceneItem<Node>> clear() {
-        List<SceneItem<Node>> cache = this.getSceneContent();
+    public List<SceneItem> clear() {
+        List<SceneItem> cache = this.getSceneContent();
         Pane root = (Pane) JFXGraphic.getPrimaryStage().getScene().getRoot();
 
         root.getChildren().removeIf(item -> item != ((BasePane) mainLayout).getNode());

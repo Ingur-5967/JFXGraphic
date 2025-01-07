@@ -31,7 +31,7 @@ public class ComponentBuilder<T extends Node> {
         return this.source;
     }
 
-    public SceneItem<? extends Node> toSceneItem() {
+    public SceneItem toSceneItem() {
         return SceneItem.fromSource(this.source);
     }
 }

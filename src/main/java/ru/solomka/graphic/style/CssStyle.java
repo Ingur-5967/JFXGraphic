@@ -17,11 +17,11 @@ public class CssStyle {
      * Concatenate all strings into a single string to correctly pass the style for the object.
      *
      * @see Properties
-     * @param styles Collection of CssStyle with Properties
+     * @param properties Collection of CssStyle with Properties
      * @return A single line with styles specified
      */
-    public static @NonNull String getCssString(CssStyle... styles) {
-        return String.join(";", Arrays.stream(styles).map(CssStyle::getCss).toList());
+    public static @NonNull String getCssString(CssStyle... properties) {
+        return String.join(";", Arrays.stream(properties).map(CssStyle::getCss).toList());
     }
 
     public static CssStyle[] create(String... properties) {
